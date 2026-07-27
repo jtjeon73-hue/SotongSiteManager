@@ -21,8 +21,8 @@ class SitesScreen extends StatelessWidget {
           const SectionHeader(
             title: '전체 사이트',
             subtitle:
-                '소통회장이 운영하는 전문 지식 사이트를 분야 카드로 모았습니다. '
-                '각 사이트는 새 탭에서 안전하게 열립니다.',
+                '소통회장이 운영하는 지식 전문관을 모았습니다. '
+                '자세히 알아보기로 미리보기를 보고, 사이트 방문으로 새 탭에서 엽니다.',
           ),
           Text(
             '현재 연결 ${repo.liveSites.length}곳 · 전체 등록 ${repo.allSites.length}곳',

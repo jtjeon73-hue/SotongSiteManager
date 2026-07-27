@@ -29,4 +29,22 @@ void main() {
     expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 5);
     expect(repository.liveSites.length, 5);
   });
+
+  test('동의어 검색이 금융·영어를 찾는다', () {
+    expect(
+      repository.searchTyped('재테크').any((r) => r.siteId == 'finance'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('영어회화').any((r) => r.siteId == 'english'),
+      isTrue,
+    );
+  });
+
+  test('잘못된 외부 URL이 없다', () {
+    for (final site in repository.allSites) {
+      expect(site.url.startsWith('https://'), isTrue);
+      expect(site.url.contains(' '), isFalse);
+    }
+  });
 }

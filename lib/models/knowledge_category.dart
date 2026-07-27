@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'content_status.dart';
 import 'site_status.dart';
 
 /// Expandable knowledge category used across discovery screens.
@@ -14,7 +15,10 @@ class KnowledgeCategory {
     required this.color,
     required this.sortOrder,
     this.status = SiteStatus.preparing,
+    this.contentStatus = ContentStatus.preparing,
     this.keywords = const [],
+    this.audienceHint = '',
+    this.whyNeeded = '',
   });
 
   final String id;
@@ -25,5 +29,8 @@ class KnowledgeCategory {
   final Color color;
   final int sortOrder;
   final SiteStatus status;
+  final ContentStatus contentStatus;
   final List<String> keywords;
+  final String audienceHint;
+  final String whyNeeded;
 }

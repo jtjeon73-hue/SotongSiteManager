@@ -3,9 +3,11 @@ import 'package:go_router/go_router.dart';
 
 import 'screens/about_screen.dart';
 import 'screens/categories_screen.dart';
+import 'screens/find_knowledge_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/learning_guide_screen.dart';
 import 'screens/search_screen.dart';
+import 'screens/site_detail_screen.dart';
 import 'screens/sites_screen.dart';
 import 'services/link_service.dart';
 import 'services/site_repository.dart';
@@ -17,6 +19,24 @@ import 'widgets/responsive_shell.dart';
 GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
   return GoRouter(
     initialLocation: initialLocation,
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('페이지를 찾을 수 없습니다'),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () => context.go(AppRoutes.home),
+                child: const Text('홈으로'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
     routes: [
       ShellRoute(
         builder: (context, state, child) => ResponsiveShell(child: child),
@@ -30,6 +50,16 @@ GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
             path: AppRoutes.sites,
             name: 'sites',
             builder: (context, state) => const SitesScreen(),
+            routes: [
+              GoRoute(
+                path: ':slug',
+                name: 'site-detail',
+                builder: (context, state) {
+                  final slug = state.pathParameters['slug'] ?? '';
+                  return SiteDetailScreen(slug: slug);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.categories,
@@ -39,7 +69,15 @@ GoRouter createAppRouter({String initialLocation = AppRoutes.home}) {
           GoRoute(
             path: AppRoutes.learning,
             name: 'learning',
-            builder: (context, state) => const LearningGuideScreen(),
+            builder: (context, state) {
+              final course = state.uri.queryParameters['course'];
+              return LearningGuideScreen(initialCourseId: course);
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.find,
+            name: 'find',
+            builder: (context, state) => const FindKnowledgeScreen(),
           ),
           GoRoute(
             path: AppRoutes.search,

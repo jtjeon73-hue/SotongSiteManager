@@ -6,4 +6,7 @@ abstract final class AppRoutes {
   static const String learning = '/learning';
   static const String search = '/search';
   static const String about = '/about';
+  static const String find = '/find';
+
+  static String siteDetail(String slug) => '$sites/$slug';
 }

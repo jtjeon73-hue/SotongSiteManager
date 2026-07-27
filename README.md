@@ -56,6 +56,7 @@
 - `google_fonts` / Noto Sans KR — 한글 가독성
 - 로컬 정적 데이터 (`lib/data/knowledge_data.dart`)
 - Firebase Hosting (`sotongsitemanager`) — https://sotongsitemanager.web.app
+- 2단계: 전문관 상세(`/sites/:slug`), 지식 찾기(`/find`), 학습 코스, 동의어 검색, 분야 지도
 
 ```
 lib/

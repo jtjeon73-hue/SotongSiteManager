@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../models/site_status.dart';
+import '../models/content_status.dart';
 import '../theme/app_colors.dart';
+import '../utils/app_routes.dart';
 import '../widgets/app_scope.dart';
 import '../widgets/category_card.dart';
 import '../widgets/common_ui.dart';
@@ -34,8 +36,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionHeader(
-            title: '분야별 지식',
-            subtitle: '관심 분야를 고르면 연결된 전문 사이트나, 아직 준비 중인 콘텐츠 방향을 확인할 수 있습니다.',
+            title: '분야별 지식 지도',
+            subtitle: '운영 중·확장 중·준비 중 상태를 구분해, 현재 배울 수 있는 분야와 앞으로의 방향을 보여줍니다.',
           ),
           Wrap(
             spacing: 8,
@@ -59,7 +61,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           if (selected == null)
             LayoutBuilder(
               builder: (context, constraints) {
-                final gap = 12.0;
+                const gap = 12.0;
                 final itemWidth = columns == 1
                     ? constraints.maxWidth
                     : (constraints.maxWidth - gap * (columns - 1)) / columns;
@@ -94,18 +96,37 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(selected.description),
+                    if (selected.whyNeeded.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        '왜 필요한가',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(selected.whyNeeded),
+                    ],
+                    if (selected.audienceHint.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Text('도움 되는 사람: ${selected.audienceHint}'),
+                    ],
                     const SizedBox(height: 12),
                     StatusChip(
-                      label: selected.status.label,
-                      color: selected.status == SiteStatus.live
-                          ? AppColors.success
-                          : AppColors.preparing,
+                      label: selected.contentStatus.label,
+                      color: switch (selected.contentStatus) {
+                        ContentStatus.live => AppColors.success,
+                        ContentStatus.expanding => AppColors.preparing,
+                        ContentStatus.preparing => AppColors.planned,
+                      },
+                      icon: selected.contentStatus == ContentStatus.live
+                          ? Icons.check_circle_outline
+                          : Icons.hourglass_bottom,
                     ),
                     if (filteredSites.isEmpty) ...[
                       const SizedBox(height: 16),
                       EmptyState(
                         title: '${selected.name}은 준비 중입니다',
-                        message: selected.futureDirection,
+                        message:
+                            '${selected.futureDirection}\n'
+                            '현재는 바로가기가 없으며, 전문관이 열리면 이 지도에 연결됩니다.',
                         icon: Icons.construction_outlined,
                         action: TextButton(
                           onPressed: () =>
@@ -122,9 +143,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             for (final site in filteredSites)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: KnowledgeSiteCard(
-                  site: site,
-                  categoryName: selected.name,
+                child: Column(
+                  children: [
+                    KnowledgeSiteCard(site: site, categoryName: selected.name),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () =>
+                            context.go(AppRoutes.siteDetail(site.routeSlug)),
+                        child: const Text('전문관 자세히 보기'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
           ],

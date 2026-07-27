@@ -6,7 +6,7 @@ async function waitForFlutter(page: import('@playwright/test').Page) {
     const flutterView = document.querySelector('flutter-view, flt-glass-pane, canvas');
     return !loading && !!flutterView;
   }, undefined, { timeout: 90_000 });
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(1200);
 }
 
 async function hasHorizontalOverflow(page: import('@playwright/test').Page) {
@@ -16,23 +16,32 @@ async function hasHorizontalOverflow(page: import('@playwright/test').Page) {
   });
 }
 
-test.describe('소통사이트매니저 e2e', () => {
-  test('데스크톱/모바일 홈 로드와 콘솔·overflow', async ({ page }) => {
+const routes = [
+  '/',
+  '/sites',
+  '/sites/ai-story',
+  '/sites/electric',
+  '/sites/car',
+  '/sites/finance',
+  '/sites/language',
+  '/categories',
+  '/learning',
+  '/find',
+  '/search',
+  '/about',
+];
+
+test.describe('소통사이트매니저 stage2 e2e', () => {
+  test('홈 로드와 콘솔·overflow', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (err) => errors.push(String(err)));
     page.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        errors.push(msg.text());
-      }
+      if (msg.type() === 'error') errors.push(msg.text());
     });
-
     await page.goto('/');
     await waitForFlutter(page);
-
     await expect(page).toHaveTitle(/소통사이트매니저/);
-    await expect(page.locator('flutter-view, flt-glass-pane, canvas').first()).toBeVisible();
     expect(await hasHorizontalOverflow(page)).toBeFalsy();
-
     const critical = errors.filter(
       (e) =>
         !e.includes('GoogleFonts') &&
@@ -42,35 +51,61 @@ test.describe('소통사이트매니저 e2e', () => {
     expect(critical).toEqual([]);
   });
 
-  test('전체 사이트 라우트 접근', async ({ page }) => {
-    await page.goto('/sites');
-    await waitForFlutter(page);
-    await expect(page).toHaveURL(/\/sites/);
-    await expect(page.locator('flutter-view, flt-glass-pane, canvas').first()).toBeVisible();
-    expect(await hasHorizontalOverflow(page)).toBeFalsy();
-  });
+  for (const route of routes) {
+    test(`직접 접근 ${route}`, async ({ page }) => {
+      const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
+      expect(response?.status()).toBeLessThan(400);
+      await waitForFlutter(page);
+      expect(await hasHorizontalOverflow(page)).toBeFalsy();
+    });
+  }
 
-  test('검색 라우트와 메타 링크 주소 확인', async ({ page }) => {
+  test('전문관·검색·찾기 라우트', async ({ page }) => {
+    await page.goto('/sites/electric');
+    await waitForFlutter(page);
+    await expect(page).toHaveURL(/\/sites\/electric/);
+
+    await page.goto('/find');
+    await waitForFlutter(page);
+    await expect(page).toHaveURL(/\/find/);
+
     await page.goto('/search');
     await waitForFlutter(page);
     await expect(page).toHaveURL(/\/search/);
-    await expect(page.locator('flutter-view, flt-glass-pane, canvas').first()).toBeVisible();
-    expect(await hasHorizontalOverflow(page)).toBeFalsy();
-
-    // External site URLs are verified in unit tests; here we assert known hosts
-    // remain documented in the built artifact for ops sanity.
-    const index = await page.content();
-    expect(index.length).toBeGreaterThan(100);
   });
 
-  test('외부 지식 사이트 주소가 빌드 산출물에 포함된다', async ({ request }) => {
-    const response = await request.get('/main.dart.js');
-    expect(response.ok()).toBeTruthy();
-    const js = await response.text();
-    expect(js).toContain('sotongware-ai-story.web.app');
-    expect(js).toContain('sotong-elec.web.app');
-    expect(js).toContain('sotong-car.web.app');
-    expect(js).toContain('sotong-finance.web.app');
-    expect(js).toContain('sotong-language.web.app');
+  test('뒤로 가기와 새로고침', async ({ page }) => {
+    await page.goto('/sites');
+    await waitForFlutter(page);
+    await page.goto('/sites/car');
+    await waitForFlutter(page);
+    await page.goBack();
+    await waitForFlutter(page);
+    await expect(page).toHaveURL(/\/sites/);
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await waitForFlutter(page);
+    expect(await hasHorizontalOverflow(page)).toBeFalsy();
+  });
+
+  test('외부 링크 주소가 빌드에 포함된다', async ({ request }) => {
+    const js = await (await request.get('/main.dart.js')).text();
+    for (const host of [
+      'sotongware-ai-story.web.app',
+      'sotong-elec.web.app',
+      'sotong-car.web.app',
+      'sotong-finance.web.app',
+      'sotong-language.web.app',
+    ]) {
+      expect(js).toContain(host);
+    }
+  });
+
+  test('robots와 sitemap', async ({ request }) => {
+    const robots = await request.get('/robots.txt');
+    const sitemap = await request.get('/sitemap.xml');
+    expect(robots.ok()).toBeTruthy();
+    expect(sitemap.ok()).toBeTruthy();
+    expect(await robots.text()).toContain('sitemap.xml');
+    expect(await sitemap.text()).toContain('/sites/electric');
   });
 });

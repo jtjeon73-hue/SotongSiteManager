@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../models/knowledge_site.dart';
 import '../models/site_status.dart';
 import '../services/link_service.dart';
 import '../theme/app_colors.dart';
+import '../utils/app_routes.dart';
 import 'app_scope.dart';
 import 'common_ui.dart';
 
@@ -137,16 +139,25 @@ class KnowledgeSiteCard extends StatelessWidget {
                 ),
               ],
               const SizedBox(height: 16),
-              if (site.isLive)
+              if (site.isLive) ...[
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
+                    onPressed: () =>
+                        context.go(AppRoutes.siteDetail(site.routeSlug)),
+                    child: const Text('자세히 알아보기'),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
                     onPressed: () => _open(context),
                     icon: const Icon(Icons.open_in_new, size: 18),
                     label: const Text('사이트 방문'),
                   ),
-                )
-              else
+                ),
+              ] else
                 const EmptyState(
                   title: '준비 중인 사이트',
                   message: '이 분야는 곧 전문 사이트로 연결될 예정입니다.',

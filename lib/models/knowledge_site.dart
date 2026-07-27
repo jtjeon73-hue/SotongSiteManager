@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'difficulty_level.dart';
 import 'site_status.dart';
 
-/// A linked specialist knowledge site in the Sotong ecosystem.
+/// A linked specialist knowledge hall in the Sotong ecosystem.
 @immutable
 class KnowledgeSite {
   const KnowledgeSite({
     required this.id,
+    required this.routeSlug,
     required this.name,
     required this.shortName,
     required this.description,
@@ -26,9 +27,23 @@ class KnowledgeSite {
     this.featured = false,
     this.learningOutcomes = const [],
     this.whyMatters = '',
+    this.coreQuestion = '',
+    this.valueProposition = '',
+    this.startPoint = '',
+    this.menuHighlights = const [],
+    this.beginnerFocus = const [],
+    this.intermediateFocus = const [],
+    this.advancedFocus = const [],
+    this.useCases = const [],
+    this.safetyNotice = '',
+    this.relatedSiteIds = const [],
+    this.confirmedFeatures = const [],
   });
 
   final String id;
+
+  /// Public URL slug under `/sites/:slug` (e.g. electric, language).
+  final String routeSlug;
   final String name;
   final String shortName;
   final String description;
@@ -47,11 +62,23 @@ class KnowledgeSite {
   final int sortOrder;
   final List<String> learningOutcomes;
   final String whyMatters;
+  final String coreQuestion;
+  final String valueProposition;
+  final String startPoint;
+  final List<String> menuHighlights;
+  final List<String> beginnerFocus;
+  final List<String> intermediateFocus;
+  final List<String> advancedFocus;
+  final List<String> useCases;
+  final String safetyNotice;
+  final List<String> relatedSiteIds;
+  final List<String> confirmedFeatures;
 
   bool get isLive => status == SiteStatus.live && url.isNotEmpty;
 
   KnowledgeSite copyWith({
     String? id,
+    String? routeSlug,
     String? name,
     String? shortName,
     String? description,
@@ -70,9 +97,21 @@ class KnowledgeSite {
     int? sortOrder,
     List<String>? learningOutcomes,
     String? whyMatters,
+    String? coreQuestion,
+    String? valueProposition,
+    String? startPoint,
+    List<String>? menuHighlights,
+    List<String>? beginnerFocus,
+    List<String>? intermediateFocus,
+    List<String>? advancedFocus,
+    List<String>? useCases,
+    String? safetyNotice,
+    List<String>? relatedSiteIds,
+    List<String>? confirmedFeatures,
   }) {
     return KnowledgeSite(
       id: id ?? this.id,
+      routeSlug: routeSlug ?? this.routeSlug,
       name: name ?? this.name,
       shortName: shortName ?? this.shortName,
       description: description ?? this.description,
@@ -91,6 +130,17 @@ class KnowledgeSite {
       sortOrder: sortOrder ?? this.sortOrder,
       learningOutcomes: learningOutcomes ?? this.learningOutcomes,
       whyMatters: whyMatters ?? this.whyMatters,
+      coreQuestion: coreQuestion ?? this.coreQuestion,
+      valueProposition: valueProposition ?? this.valueProposition,
+      startPoint: startPoint ?? this.startPoint,
+      menuHighlights: menuHighlights ?? this.menuHighlights,
+      beginnerFocus: beginnerFocus ?? this.beginnerFocus,
+      intermediateFocus: intermediateFocus ?? this.intermediateFocus,
+      advancedFocus: advancedFocus ?? this.advancedFocus,
+      useCases: useCases ?? this.useCases,
+      safetyNotice: safetyNotice ?? this.safetyNotice,
+      relatedSiteIds: relatedSiteIds ?? this.relatedSiteIds,
+      confirmedFeatures: confirmedFeatures ?? this.confirmedFeatures,
     );
   }
 }

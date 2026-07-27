@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/content_status.dart';
 import '../models/knowledge_category.dart';
-import '../models/site_status.dart';
 import '../theme/app_colors.dart';
 import 'common_ui.dart';
 
@@ -20,15 +20,16 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLive = category.status == SiteStatus.live && siteCount > 0;
+    final isLive =
+        category.contentStatus == ContentStatus.live && siteCount > 0;
     final statusLabel = isLive
-        ? '연결됨 · 사이트 $siteCount개'
-        : category.status.label;
-    final statusColor = isLive
-        ? AppColors.success
-        : (category.status == SiteStatus.preparing
-              ? AppColors.preparing
-              : AppColors.planned);
+        ? '${category.contentStatus.label} · 사이트 $siteCount개'
+        : category.contentStatus.label;
+    final statusColor = switch (category.contentStatus) {
+      ContentStatus.live => AppColors.success,
+      ContentStatus.expanding => AppColors.preparing,
+      ContentStatus.preparing => AppColors.planned,
+    };
 
     return Semantics(
       button: onTap != null,
@@ -78,12 +79,28 @@ class CategoryCard extends StatelessWidget {
                 ),
                 if (!isLive) ...[
                   const SizedBox(height: 12),
+                  Text('왜 필요한가', style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    category.whyNeeded.isEmpty
+                        ? category.futureDirection
+                        : category.whyNeeded,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 8),
                   Text('향후 방향', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
                     category.futureDirection,
                     style: theme.textTheme.bodyMedium,
                   ),
+                  if (category.audienceHint.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      '도움 되는 사람: ${category.audienceHint}',
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ],
                 ],
               ],
             ),

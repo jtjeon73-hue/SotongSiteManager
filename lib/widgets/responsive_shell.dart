@@ -18,6 +18,7 @@ const _navItems = [
   _NavItem('전체 사이트', AppRoutes.sites, Icons.grid_view_outlined),
   _NavItem('분야별 지식', AppRoutes.categories, Icons.category_outlined),
   _NavItem('학습 길잡이', AppRoutes.learning, Icons.explore_outlined),
+  _NavItem('지식 찾기', AppRoutes.find, Icons.person_search_outlined),
   _NavItem('통합 검색', AppRoutes.search, Icons.search),
   _NavItem('소개', AppRoutes.about, Icons.info_outline),
 ];
@@ -29,11 +30,14 @@ class ResponsiveShell extends StatelessWidget {
   final Widget child;
 
   int _selectedIndex(String location) {
+    if (location.startsWith('${AppRoutes.sites}/')) {
+      return _navItems.indexWhere((item) => item.path == AppRoutes.sites);
+    }
     final index = _navItems.indexWhere((item) {
       if (item.path == AppRoutes.home) {
         return location == AppRoutes.home;
       }
-      return location.startsWith(item.path);
+      return location == item.path || location.startsWith('${item.path}/');
     });
     return index < 0 ? 0 : index;
   }
