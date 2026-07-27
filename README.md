@@ -55,7 +55,7 @@
 - `url_launcher` — 외부 사이트 새 탭 열기
 - `google_fonts` / Noto Sans KR — 한글 가독성
 - 로컬 정적 데이터 (`lib/data/knowledge_data.dart`)
-- 무료 Firebase Hosting 배포를 전제로 한 정적 웹 빌드
+- Firebase Hosting (`sotongsitemanager`) — https://sotongsitemanager.web.app
 
 ```
 lib/
@@ -89,18 +89,30 @@ flutter run -d chrome --web-port=8080
 
 ## 검사 방법
 
+배포 전 권장 순서:
+
 ```bash
-dart format .
+dart format --set-exit-if-changed .
 flutter analyze --fatal-infos
 flutter test
+flutter build web --release
 ```
 
-가능하면 Playwright(선택):
+Playwright(로컬 빌드):
 
 ```bash
-# 릴리스 빌드 후 정적 서버로 확인
 flutter build web --release
-# 로컬 서버 예: python -m http.server 4173 --directory build/web
+cd e2e
+npm install
+npx playwright install chromium
+npx playwright test tests/portal.spec.ts
+```
+
+운영 주소 검증(선택):
+
+```bash
+cd e2e
+npx playwright test tests/production.spec.ts --project=desktop-chrome
 ```
 
 ---
@@ -115,6 +127,43 @@ flutter build web --release
 
 ---
 
+## Firebase Hosting 운영 정보
+
+| 항목 | 값 |
+| --- | --- |
+| Firebase 프로젝트 이름 | SotongSiteManager |
+| Firebase Project ID | `sotongsitemanager` |
+| 프로젝트 번호 | `300481711308` |
+| 요금제 | Spark 무료 요금제 |
+| 운영 주소 | https://sotongsitemanager.web.app |
+| 사용 제품 | Hosting만 |
+
+설정 파일:
+
+- `.firebaserc` — 기본 프로젝트를 `sotongsitemanager`로 고정
+- `firebase.json` — `build/web` 배포, SPA rewrite, 캐시 헤더
+
+### 배포 방법
+
+```bash
+# 1) 프로젝트가 sotongsitemanager인지 확인
+firebase use
+firebase projects:list
+
+# 2) 검사·빌드
+flutter analyze --fatal-infos
+flutter test
+flutter build web --release
+
+# 3) Hosting만 배포 (다른 제품 활성화 금지)
+firebase deploy --only hosting --project sotongsitemanager
+```
+
+배포 전 `.firebaserc`의 `default`가 `sotongsitemanager`인지 반드시 확인하세요.  
+다른 소통웨어 프로젝트 ID로는 절대 배포하지 않습니다.
+
+---
+
 ## 새로운 지식 사이트 추가 방법
 
 1. `lib/models/`의 모델 필드를 확인합니다. (`KnowledgeSite` 등)
@@ -124,7 +173,12 @@ flutter build web --release
    - 홈 추천 → `featuredKnowledge`에 추가
    - 목적 추천 → `learningGoals`의 `siteIds`에 id 연결
 4. `flutter test`로 검색·사이트 목록 반영을 확인합니다.
-5. `flutter build web --release` 후 Hosting에 배포합니다.
+5. `flutter build web --release` 후 Hosting에 재배포합니다.
+
+```bash
+flutter build web --release
+firebase deploy --only hosting --project sotongsitemanager
+```
 
 최소 예시:
 
@@ -154,19 +208,22 @@ KnowledgeSite(
 
 ---
 
-## 무료 운영 원칙
+## 무료 운영 원칙 (Spark)
 
-1단계에서는 다음을 사용하지 않습니다.
+현재 프로젝트는 **Spark 무료 요금제**이며, 결제 계정을 연결하지 않습니다.
 
-- 로그인/회원가입/결제/광고
-- 개인정보 수집
-- Firestore 쓰기, Functions
-- 외부 생성형 AI / 유료 검색 API
+사용하지 않는 서비스:
 
-정적 웹 + 무료 Firebase Hosting으로 운영 가능한 구조를 유지합니다.
+- Firestore
+- Cloud Functions
+- Storage
+- Authentication
+- Blaze 요금제 / 결제 계정
+- 외부 생성형 AI API
+- 외부 유료 검색 API
+- 로그인·회원가입·결제·광고
 
-권장 Firebase Project ID 후보: `sotong-site-manager`  
-(아직 프로젝트가 없다면 생성·배포는 별도 확인 후 진행)
+정적 Flutter Web + Firebase Hosting만 사용합니다.
 
 ---
 
