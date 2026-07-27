@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="소통사이트매니저 - 세상의 중요한 지식을 쉽고 깊이 있게. AI·전기·자동차·금융·영어 등 전문 지식 사이트를 하나로 연결하는 소통웨어 통합 지식 플랫폼.">
+  <meta name="theme-color" content="#0F2744">
+  <meta name="keywords" content="소통사이트매니저, 소통웨어, 지식 플랫폼, AI, 전기, 자동차, 금융, 영어">
+
+  <meta property="og:title" content="소통사이트매니저 | Sotong Knowledge Manager">
+  <meta property="og:description" content="세상의 중요한 지식을 쉽고 깊이 있게. 관심에서 시작해 이해하고, 배우고, 실생활에 활용하는 소통 지식 플랫폼.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="소통사이트매니저">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+
+  <title>소통사이트매니저 | Sotong Knowledge Manager</title>
+  <style>
+    body {
+      margin: 0;
+      background: #F5F7FA;
+      color: #152238;
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+    }
+    .loading {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="loading" id="loading">
+    <strong>소통사이트매니저</strong>
+    <span>지식을 연결하는 중입니다…</span>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('loading');
+      if (el) el.remove();
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
