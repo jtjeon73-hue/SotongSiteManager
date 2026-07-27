@@ -10,6 +10,8 @@ class RelatedKnowledge {
     required this.fromSiteId,
     required this.toSiteId,
     required this.keywords,
+    this.startHint = '',
+    this.nextHint = '',
   });
 
   final String id;
@@ -18,4 +20,6 @@ class RelatedKnowledge {
   final String fromSiteId;
   final String toSiteId;
   final List<String> keywords;
+  final String startHint;
+  final String nextHint;
 }

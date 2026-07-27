@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../models/featured_knowledge.dart';
+import '../models/home_site_group.dart';
 import '../models/knowledge_category.dart';
 import '../models/knowledge_path.dart';
 import '../models/knowledge_site.dart';
 import '../models/learning_goal.dart';
 import '../models/related_knowledge.dart';
 import 'categories_data.dart';
+import 'home_groups_data.dart';
 import 'learning_paths_data.dart';
 import 'recommendation_rules.dart';
 import 'sites_data.dart';
 
-/// Aggregated catalog for stage-2 discovery.
+/// Aggregated catalog for stage-3 discovery.
 abstract final class KnowledgeData {
   static const List<KnowledgeCategory> categories = CategoriesData.categories;
   static const List<KnowledgeSite> sites = SitesData.sites;
   static const List<KnowledgePath> learningPaths = LearningPathsData.paths;
   static const List<RelatedKnowledge> relatedKnowledge =
       RelatedKnowledgeData.items;
+  static const List<HomeSiteGroup> homeGroups = HomeGroupsData.groups;
 
   static const List<FeaturedKnowledge> featuredKnowledge = [
     FeaturedKnowledge(
@@ -123,24 +126,54 @@ abstract final class KnowledgeData {
       keywords: ['영어', '생활영어', '회화'],
     ),
     LearningGoal(
-      id: 'goal-dev-plc',
-      title: '개발과 산업자동화를 공부하고 싶어요',
-      description: '현재는 준비 중인 분야입니다. 학습 방향만 미리 확인할 수 있습니다.',
-      icon: Icons.precision_manufacturing_outlined,
-      siteIds: [],
-      learningOrder: ['프로그래밍 기초 개념', '자동화와 센서 역할', 'PLC 입문', '현장 안전', '심화 확장'],
-      tips: ['지금은 AI·전기 등 기반 지식을 먼저 살펴볼 수 있습니다.'],
-      keywords: ['프로그래밍', 'PLC', '자동화', '코딩'],
+      id: 'goal-health',
+      title: '건강과 생활습관을 이해하고 싶어요',
+      description: '교육용 건강정보로 질환·증상·생활습관을 올바르게 이해합니다.',
+      icon: Icons.favorite_outline,
+      siteIds: ['health'],
+      learningOrder: ['건강 기초', '질환·증상', '영양·운동', '응급 안내', '출처·한계 확인'],
+      tips: ['진단·처방을 대신하지 않습니다.', '응급 증상은 119·의료기관을 이용하세요.'],
+      keywords: ['건강', '질환', '증상', '생활습관'],
     ),
     LearningGoal(
-      id: 'goal-farm',
-      title: '농촌생활과 스마트팜을 알아보고 싶어요',
-      description: '귀촌·스마트팜 분야는 준비 중입니다.',
+      id: 'goal-plc',
+      title: 'PLC와 공장자동화를 배우고 싶어요',
+      description: 'PLC 기초부터 센서·통신·MFC 연동까지 안내합니다.',
+      icon: Icons.precision_manufacturing_outlined,
+      siteIds: ['plc'],
+      learningOrder: ['PLC 시작하기', '안전', '제조사 입문', '센서·통신', 'MFC·실습'],
+      tips: ['실제 설비 전 전원 차단과 매뉴얼을 확인하세요.'],
+      keywords: ['PLC', '자동화', '제어', '센서'],
+    ),
+    LearningGoal(
+      id: 'goal-smartfarm',
+      title: '스마트팜과 농업기술을 알고 싶어요',
+      description: '센서·제어·데이터·운영을 과장 없이 연결합니다.',
       icon: Icons.agriculture_outlined,
-      siteIds: [],
-      learningOrder: ['귀촌·농업 현실 이해', '작물·기초 관리', '스마트팜 개념', '생활 사례', '안전·비용'],
-      tips: ['준비 중 분야도 방향을 미리 확인할 수 있습니다.'],
-      keywords: ['농업', '귀촌', '스마트팜', '농촌'],
+      siteIds: ['smart-farm'],
+      learningOrder: ['스마트팜 이해', '환경·센서', '제어·PLC', '데이터·소프트웨어', '안전·운영'],
+      tips: ['현장 조건과 전문가 확인이 필요합니다.'],
+      keywords: ['스마트팜', '농업', '센서', '데이터'],
+    ),
+    LearningGoal(
+      id: 'goal-dev',
+      title: '코딩과 앱 개발을 배우고 싶어요',
+      description: '로드맵·Python·Flutter로 개발 학습을 시작합니다.',
+      icon: Icons.code_outlined,
+      siteIds: ['development'],
+      learningOrder: ['로드맵', '기본지식', '언어 입문', '도구·실무', '프로젝트·퀴즈'],
+      tips: ['예제 코드는 학습용입니다.', 'API 키를 소스에 넣지 마세요.'],
+      keywords: ['코딩', '프로그래밍', 'Flutter', 'Python'],
+    ),
+    LearningGoal(
+      id: 'goal-rural',
+      title: '농촌생활과 지역발전을 연구하고 싶어요',
+      description: '사매면 사례로 생활·경제·AI 아이디어를 구분해 봅니다.',
+      icon: Icons.cottage_outlined,
+      siteIds: ['country-ai'],
+      learningOrder: ['사매면 이해', '주민의 하루', '사업·문화', '차별화 전략', '현실/제안 구분'],
+      tips: ['AI 제안은 참고자료이며 최종 결정이 아닙니다.'],
+      keywords: ['농촌', '귀촌', '지역', '사매'],
     ),
   ];
 
@@ -150,6 +183,11 @@ abstract final class KnowledgeData {
     '차를 안전하고 스마트하게 관리하고 싶다면 → 소통카',
     '돈의 결정을 스스로 이해하고 싶다면 → 소통금융',
     '생활영어를 부담 없이 시작하고 싶다면 → 소통영어',
+    '건강 정보를 올바르게 이해하고 싶다면 → 소통건강',
+    'PLC·자동화를 배우고 싶다면 → 소통PLC',
+    '스마트팜 기술을 알고 싶다면 → 소통스마트팜',
+    '코딩·앱 개발을 시작하고 싶다면 → 소통개발',
+    '농촌·지역발전을 살펴보고 싶다면 → 소통농촌AI',
   ];
 
   static const List<String> learningMethodSteps = [
@@ -161,19 +199,11 @@ abstract final class KnowledgeData {
   ];
 
   static const List<String> expansionFields = [
-    '건강',
-    '프로그래밍',
-    'PLC·산업자동화',
-    '스마트팜',
-    '농업·귀촌',
-    '자동차·농기계',
-    '인공지능 활용',
-    '재무·투자·세금',
-    '외국어',
-    '역사·과학·생활지식',
-    '지역발전·관광',
     '취미·음악',
     '노후생활',
+    '역사·과학',
+    '자격증 통합',
+    '여행·문화',
     '새로운 관심 분야',
   ];
 

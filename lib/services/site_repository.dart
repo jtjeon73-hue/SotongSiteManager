@@ -70,6 +70,39 @@ class SiteRepository {
       for (final id in path.siteIds) {
         assert(siteIds.contains(id), 'Path ${path.id} unknown site $id');
       }
+      for (final id in path.relatedSiteIds) {
+        assert(
+          siteIds.contains(id),
+          'Path ${path.id} unknown related site $id',
+        );
+      }
+      assert(
+        path.steps.length >= 3 && path.steps.length <= 6,
+        'Path ${path.id} must have 3-6 steps',
+      );
+    }
+    for (final item in _related) {
+      assert(
+        siteIds.contains(item.fromSiteId),
+        'Related ${item.id} unknown from ${item.fromSiteId}',
+      );
+      assert(
+        siteIds.contains(item.toSiteId),
+        'Related ${item.id} unknown to ${item.toSiteId}',
+      );
+    }
+    for (final site in _sites) {
+      for (final catId in site.secondaryCategoryIds) {
+        assert(
+          categoryIds.contains(catId),
+          'Unknown secondary category $catId for ${site.id}',
+        );
+      }
+    }
+    for (final group in KnowledgeData.homeGroups) {
+      for (final id in group.siteIds) {
+        assert(siteIds.contains(id), 'Home group ${group.id} unknown site $id');
+      }
     }
   }
 

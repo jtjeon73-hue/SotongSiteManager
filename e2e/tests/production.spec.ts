@@ -9,6 +9,11 @@ const routes = [
   '/sites/car',
   '/sites/finance',
   '/sites/language',
+  '/sites/health',
+  '/sites/plc',
+  '/sites/smart-farm',
+  '/sites/development',
+  '/sites/country-ai',
   '/categories',
   '/learning',
   '/find',
@@ -31,7 +36,7 @@ async function hasHorizontalOverflow(page: import('@playwright/test').Page) {
   );
 }
 
-test.describe('production stage2', () => {
+test.describe('production stage3', () => {
   for (const route of routes) {
     test(`direct ${route}`, async ({ page }) => {
       const response = await page.goto(`${BASE}${route}`, {
@@ -53,9 +58,13 @@ test.describe('production stage2', () => {
 
   test('seo assets and external hosts', async ({ request }) => {
     expect((await request.get(`${BASE}/robots.txt`)).ok()).toBeTruthy();
-    expect((await request.get(`${BASE}/sitemap.xml`)).ok()).toBeTruthy();
+    const sitemap = await request.get(`${BASE}/sitemap.xml`);
+    expect(sitemap.ok()).toBeTruthy();
+    expect(await sitemap.text()).toContain('/sites/health');
     const js = await (await request.get(`${BASE}/main.dart.js`)).text();
     expect(js).toContain('sotong-elec.web.app');
+    expect(js).toContain('sotong-health-site.web.app');
+    expect(js).toContain('sotong-country-ai.web.app');
     expect(js).toContain('/find');
   });
 });

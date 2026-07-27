@@ -57,7 +57,7 @@ void main() {
     expect(find.textContaining('세상의 중요한 지식을 쉽고 깊이 있게'), findsOneWidget);
   });
 
-  testWidgets('5개 현재 사이트가 표시된다', (tester) async {
+  testWidgets('10개 현재 사이트가 표시된다', (tester) async {
     await tester.binding.setSurfaceSize(const Size(1280, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(_buildApp(location: AppRoutes.sites));
@@ -65,7 +65,7 @@ void main() {
     for (final site in KnowledgeData.sites) {
       expect(find.text(site.name), findsWidgets);
     }
-    expect(KnowledgeData.sites.length, 5);
+    expect(KnowledgeData.sites.length, 10);
   });
 
   test('사이트 외부 주소가 정확하다', () {
@@ -75,6 +75,11 @@ void main() {
     expect(urls['car'], 'https://sotong-car.web.app');
     expect(urls['finance'], 'https://sotong-finance.web.app');
     expect(urls['english'], 'https://sotong-language.web.app');
+    expect(urls['health'], 'https://sotong-health-site.web.app');
+    expect(urls['plc'], 'https://sotongware-plc.web.app');
+    expect(urls['smart-farm'], 'https://sotong-smart-farm.web.app');
+    expect(urls['development'], 'https://sotong-dev.web.app');
+    expect(urls['country-ai'], 'https://sotong-country-ai.web.app');
   });
 
   testWidgets('분야 필터가 선택한 분야 사이트만 보여준다', (tester) async {
@@ -110,11 +115,13 @@ void main() {
   });
 
   testWidgets('학습 목적별 추천을 보여준다', (tester) async {
-    await tester.binding.setSurfaceSize(const Size(900, 1600));
+    await tester.binding.setSurfaceSize(const Size(900, 2000));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(_buildApp(location: AppRoutes.learning));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('AI를 제대로 이해하고 활용하고 싶어요'));
+    final goal = find.text('AI를 제대로 이해하고 활용하고 싶어요');
+    await tester.scrollUntilVisible(goal, 300, scrollable: find.byType(Scrollable).first);
+    await tester.tap(goal);
     await tester.pumpAndSettle();
     expect(find.text('소통AI스토리'), findsWidgets);
   });
@@ -186,19 +193,19 @@ void main() {
     final repo = SiteRepository(
       sites: [
         ...KnowledgeData.sites,
-        _sampleSite(id: 'health-demo', slug: 'health', name: '소통건강'),
+        _sampleSite(id: 'extra-demo', slug: 'extra-demo', name: '추가데모관'),
       ],
     );
     await tester.pumpWidget(
       _buildApp(repository: repo, location: AppRoutes.sites),
     );
     await tester.pumpAndSettle();
-    expect(find.text('소통건강'), findsWidgets);
+    expect(find.text('추가데모관'), findsWidgets);
   });
 
-  test('5개 전문관 상세 데이터와 slug가 유효하다', () {
+  test('10개 전문관 상세 데이터와 slug가 유효하다', () {
     final repo = SiteRepository();
-    expect(repo.liveSites.length, 5);
+    expect(repo.liveSites.length, 10);
     for (final site in repo.liveSites) {
       expect(site.routeSlug, isNotEmpty);
       expect(site.coreQuestion, isNotEmpty);
@@ -209,6 +216,11 @@ void main() {
     }
     expect(repo.findSiteBySlug('electric')?.id, 'elec');
     expect(repo.findSiteBySlug('language')?.id, 'english');
+    expect(repo.findSiteBySlug('health')?.id, 'health');
+    expect(repo.findSiteBySlug('plc')?.id, 'plc');
+    expect(repo.findSiteBySlug('smart-farm')?.id, 'smart-farm');
+    expect(repo.findSiteBySlug('development')?.id, 'development');
+    expect(repo.findSiteBySlug('country-ai')?.id, 'country-ai');
   });
 
   testWidgets('전문관 상세 라우트와 필수 섹션을 표시한다', (tester) async {
@@ -275,7 +287,7 @@ void main() {
 
   test('학습 코스 데이터 무결성', () {
     final repo = SiteRepository();
-    expect(repo.learningPaths.length, greaterThanOrEqualTo(8));
+    expect(repo.learningPaths.length, greaterThanOrEqualTo(18));
     for (final path in repo.learningPaths) {
       expect(path.steps.length, inInclusiveRange(3, 6));
       expect(path.siteIds, isNotEmpty);
@@ -291,6 +303,10 @@ void main() {
     expect(money.any((r) => r.siteId == 'finance'), isTrue);
     final ai = repo.searchTyped('인공지능');
     expect(ai.any((r) => r.siteId == 'ai-story'), isTrue);
+    final health = repo.searchTyped('증상');
+    expect(health.any((r) => r.siteId == 'health'), isTrue);
+    final plc = repo.searchTyped('피엘씨');
+    expect(plc.any((r) => r.siteId == 'plc'), isTrue);
     final types = money.map((r) => r.type).toSet();
     expect(types.contains(SearchResultType.hall), isTrue);
   });
@@ -301,10 +317,97 @@ void main() {
         .where((c) => c.contentStatus.label == '준비 중')
         .toList();
     expect(preparing, isNotEmpty);
+    final liveCats = repo.categories
+        .where((c) => c.contentStatus.label == '운영 중')
+        .toList();
+    expect(liveCats.length, 10);
     final ids = repo.allSites.map((s) => s.id).toList();
     expect(ids.toSet().length, ids.length);
     final slugs = repo.allSites.map((s) => s.routeSlug).toList();
     expect(slugs.toSet().length, slugs.length);
+  });
+
+  testWidgets('신규 전문관 상세 안전 안내를 표시한다', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(900, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    for (final slug in [
+      'health',
+      'plc',
+      'smart-farm',
+      'development',
+      'country-ai',
+    ]) {
+      await tester.pumpWidget(_buildApp(location: AppRoutes.siteDetail(slug)));
+      await tester.pumpAndSettle();
+      expect(find.text('안전·책임 안내'), findsOneWidget);
+      expect(find.text('전문관 소개'), findsOneWidget);
+    }
+  });
+
+  test('신규 추천 목적과 기존 회귀', () {
+    final repo = SiteRepository();
+    expect(
+      repo
+          .recommend(
+            const RecommendationProfile(
+              purpose: RecommendationPurpose.healthLifestyle,
+              level: RecommendationLevel.firstStart,
+              timeBudget: RecommendationTime.thirtyMinutes,
+            ),
+          )
+          .primarySiteId,
+      'health',
+    );
+    expect(
+      repo
+          .recommend(
+            const RecommendationProfile(
+              purpose: RecommendationPurpose.plcAutomation,
+              level: RecommendationLevel.firstStart,
+              timeBudget: RecommendationTime.thirtyMinutes,
+            ),
+          )
+          .primarySiteId,
+      'plc',
+    );
+    expect(
+      repo
+          .recommend(
+            const RecommendationProfile(
+              purpose: RecommendationPurpose.codingDev,
+              level: RecommendationLevel.firstStart,
+              timeBudget: RecommendationTime.thirtyMinutes,
+            ),
+          )
+          .primarySiteId,
+      'development',
+    );
+    expect(
+      repo
+          .recommend(
+            const RecommendationProfile(
+              purpose: RecommendationPurpose.examStudy,
+              level: RecommendationLevel.firstStart,
+              timeBudget: RecommendationTime.longTerm,
+            ),
+          )
+          .primarySiteId,
+      'elec',
+    );
+  });
+
+  test('교차 학습 관계와 홈 그룹이 유효하다', () {
+    final repo = SiteRepository();
+    expect(repo.relatedKnowledge.length, greaterThanOrEqualTo(12));
+    for (final item in repo.relatedKnowledge) {
+      expect(repo.findSiteById(item.fromSiteId), isNotNull);
+      expect(repo.findSiteById(item.toSiteId), isNotNull);
+      expect(item.startHint, isNotEmpty);
+      expect(item.nextHint, isNotEmpty);
+    }
+    expect(KnowledgeData.homeGroups.length, 3);
+    final grouped = KnowledgeData.homeGroups.expand((g) => g.siteIds).toSet();
+    expect(grouped.length, 10);
   });
 
   testWidgets('홈 핵심 행동 버튼이 보인다', (tester) async {
@@ -315,5 +418,8 @@ void main() {
     expect(find.text('내게 맞는 지식 찾기'), findsWidgets);
     expect(find.text('분야별 둘러보기'), findsOneWidget);
     expect(find.text('전체 전문 사이트 보기'), findsOneWidget);
+    expect(find.text('생활과 자기계발'), findsOneWidget);
+    expect(find.text('기술과 실무'), findsOneWidget);
+    expect(find.text('AI와 미래·지역'), findsOneWidget);
   });
 }

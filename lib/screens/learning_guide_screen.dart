@@ -20,6 +20,7 @@ class LearningGuideScreen extends StatefulWidget {
 class _LearningGuideScreenState extends State<LearningGuideScreen> {
   String? _selectedPathId;
   String? _selectedGoalId;
+  String _groupFilter = '전체';
 
   @override
   void initState() {
@@ -30,6 +31,15 @@ class _LearningGuideScreenState extends State<LearningGuideScreen> {
   @override
   Widget build(BuildContext context) {
     final repo = AppScope.repositoryOf(context);
+    final groups = <String>{
+      '전체',
+      ...repo.learningPaths.map((p) => p.groupLabel),
+    }.toList();
+    final filteredPaths = _groupFilter == '전체'
+        ? repo.learningPaths
+        : repo.learningPaths
+              .where((path) => path.groupLabel == _groupFilter)
+              .toList();
     final selectedPath = _selectedPathId == null
         ? null
         : repo.findPathById(_selectedPathId!);
@@ -49,7 +59,27 @@ class _LearningGuideScreenState extends State<LearningGuideScreen> {
           ),
           Text('학습 코스', style: Theme.of(context).textTheme.headlineSmall),
           const SizedBox(height: 10),
-          for (final path in repo.learningPaths)
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final group in groups)
+                FilterChip(
+                  label: Text(group),
+                  selected: _groupFilter == group,
+                  onSelected: (_) => setState(() {
+                    _groupFilter = group;
+                    if (selectedPath != null &&
+                        group != '전체' &&
+                        selectedPath.groupLabel != group) {
+                      _selectedPathId = null;
+                    }
+                  }),
+                ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          for (final path in filteredPaths)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: _PathTile(
@@ -205,6 +235,11 @@ class _PathDetail extends StatelessWidget {
             Text('추천 대상: ${path.targetUsers.join(' · ')}'),
             Text('예상 기간: ${path.durationLabel}'),
             Text('하루 권장 시간: ${path.dailyMinutesLabel}'),
+            if (path.cautionNotice.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text('주의사항', style: Theme.of(context).textTheme.titleMedium),
+              Text(path.cautionNotice, softWrap: true),
+            ],
             const SizedBox(height: 12),
             Text('학습 단계', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
@@ -268,6 +303,20 @@ class _PathDetail extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
+            ],
+            if (path.relatedSiteIds.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                '함께 연결할 전문관',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              for (final id in path.relatedSiteIds)
+                if (repo.findSiteById(id) case final related?)
+                  TextButton(
+                    onPressed: () =>
+                        context.go(AppRoutes.siteDetail(related.routeSlug)),
+                    child: Text(related.name),
+                  ),
             ],
           ],
         ),

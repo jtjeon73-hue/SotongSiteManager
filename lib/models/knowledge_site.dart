@@ -38,6 +38,8 @@ class KnowledgeSite {
     this.safetyNotice = '',
     this.relatedSiteIds = const [],
     this.confirmedFeatures = const [],
+    this.secondaryCategoryIds = const [],
+    this.homeGroupIds = const [],
   });
 
   final String id;
@@ -74,6 +76,12 @@ class KnowledgeSite {
   final List<String> relatedSiteIds;
   final List<String> confirmedFeatures;
 
+  /// Extra category links so one hall can belong to multiple knowledge fields.
+  final List<String> secondaryCategoryIds;
+
+  /// Home section ids (life / tech / future). A hall may appear in more than one.
+  final List<String> homeGroupIds;
+
   bool get isLive => status == SiteStatus.live && url.isNotEmpty;
 
   KnowledgeSite copyWith({
@@ -108,6 +116,8 @@ class KnowledgeSite {
     String? safetyNotice,
     List<String>? relatedSiteIds,
     List<String>? confirmedFeatures,
+    List<String>? secondaryCategoryIds,
+    List<String>? homeGroupIds,
   }) {
     return KnowledgeSite(
       id: id ?? this.id,
@@ -141,6 +151,8 @@ class KnowledgeSite {
       safetyNotice: safetyNotice ?? this.safetyNotice,
       relatedSiteIds: relatedSiteIds ?? this.relatedSiteIds,
       confirmedFeatures: confirmedFeatures ?? this.confirmedFeatures,
+      secondaryCategoryIds: secondaryCategoryIds ?? this.secondaryCategoryIds,
+      homeGroupIds: homeGroupIds ?? this.homeGroupIds,
     );
   }
 }

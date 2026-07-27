@@ -25,12 +25,12 @@ void main() {
     expect(results.first.reasons, isNotEmpty);
   });
 
-  test('카탈로그에 5개 운영 사이트가 있다', () {
-    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 5);
-    expect(repository.liveSites.length, 5);
+  test('카탈로그에 10개 운영 사이트가 있다', () {
+    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 10);
+    expect(repository.liveSites.length, 10);
   });
 
-  test('동의어 검색이 금융·영어를 찾는다', () {
+  test('동의어 검색이 금융·영어·신규 분야를 찾는다', () {
     expect(
       repository.searchTyped('재테크').any((r) => r.siteId == 'finance'),
       isTrue,
@@ -39,6 +39,21 @@ void main() {
       repository.searchTyped('영어회화').any((r) => r.siteId == 'english'),
       isTrue,
     );
+    expect(
+      repository.searchTyped('코딩').any((r) => r.siteId == 'development'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('스마트농업').any((r) => r.siteId == 'smart-farm'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('귀촌').any((r) => r.siteId == 'country-ai'),
+      isTrue,
+    );
+    final sensor = repository.searchTyped('센서');
+    expect(sensor.any((r) => r.siteId == 'plc'), isTrue);
+    expect(sensor.any((r) => r.siteId == 'smart-farm'), isTrue);
   });
 
   test('잘못된 외부 URL이 없다', () {

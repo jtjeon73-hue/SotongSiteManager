@@ -86,18 +86,39 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           SectionHeader(
-            title: '다섯 개 지식 전문관',
-            subtitle: '단순 링크가 아니라, 무엇을 배울지 미리 이해할 수 있는 전문관입니다.',
+            title: '열 개 지식 전문관',
+            subtitle: '생활·기술·AI·지역으로 묶어, 필요한 전문관만 골라 보세요.',
             action: TextButton(
               onPressed: () => context.go(AppRoutes.sites),
-              child: const Text('전체 보기'),
+              child: const Text('전체 전문관 보기'),
             ),
           ),
-          _Grid(
-            columns: hallColumns,
-            children: [
-              for (final site in repo.liveSites) _HallCard(site: site),
-            ],
+          for (final group in KnowledgeData.homeGroups) ...[
+            const SizedBox(height: 8),
+            Text(group.title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 4),
+            Text(
+              group.subtitle,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+            ),
+            const SizedBox(height: 10),
+            _Grid(
+              columns: hallColumns,
+              children: [
+                for (final siteId in group.siteIds)
+                  if (repo.findSiteById(siteId) case final site?)
+                    _CompactHallCard(site: site),
+              ],
+            ),
+          ],
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: () => context.go(AppRoutes.sites),
+              child: const Text('전체 전문관 목록 보기'),
+            ),
           ),
           const SizedBox(height: 24),
           const SectionHeader(
@@ -119,7 +140,24 @@ class HomeScreen extends StatelessWidget {
                   title: Text(item.title, softWrap: true),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: Text(item.description, softWrap: true),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.description, softWrap: true),
+                        if (item.startHint.isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            '시작: ${item.startHint}',
+                            style: const TextStyle(color: AppColors.textMuted),
+                          ),
+                        ],
+                        if (item.nextHint.isNotEmpty)
+                          Text(
+                            '다음: ${item.nextHint}',
+                            style: const TextStyle(color: AppColors.textMuted),
+                          ),
+                      ],
+                    ),
                   ),
                   onTap: () {
                     final to = repo.findSiteById(item.toSiteId);
@@ -264,8 +302,8 @@ class _Hero extends StatelessWidget {
   }
 }
 
-class _HallCard extends StatelessWidget {
-  const _HallCard({required this.site});
+class _CompactHallCard extends StatelessWidget {
+  const _CompactHallCard({required this.site});
 
   final KnowledgeSite site;
 
@@ -273,7 +311,7 @@ class _HallCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -285,48 +323,45 @@ class _HallCard extends StatelessWidget {
                   child: Text(
                     site.name,
                     softWrap: true,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              site.coreQuestion,
-              style: Theme.of(context).textTheme.titleMedium,
+              site.valueProposition,
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 6),
-            Text(site.valueProposition),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             Wrap(
               spacing: 6,
               runSpacing: 6,
               children: [
-                for (final topic in site.topics.take(5))
-                  Chip(label: Text(topic)),
+                for (final topic in site.topics.take(3))
+                  Chip(
+                    label: Text(topic, style: const TextStyle(fontSize: 12)),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text('추천: ${site.targetUsers.take(3).join(' · ')}'),
-            Text('난이도: ${site.difficulty.label}'),
-            Text('시작점: ${site.startPoint}', softWrap: true),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                ElevatedButton(
-                  onPressed: () =>
-                      context.go(AppRoutes.siteDetail(site.routeSlug)),
-                  child: const Text('자세히 알아보기'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () =>
-                      AppScope.linkServiceOf(context).openExternal(site.url),
-                  icon: const Icon(Icons.open_in_new, size: 16),
-                  label: const Text('전문 사이트 방문'),
-                ),
-              ],
+            const SizedBox(height: 6),
+            Text(
+              '추천: ${site.targetUsers.take(2).join(' · ')}',
+              softWrap: true,
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () =>
+                    context.go(AppRoutes.siteDetail(site.routeSlug)),
+                child: const Text('상세 보기'),
+              ),
             ),
           ],
         ),
@@ -404,7 +439,7 @@ class _SearchEntry extends StatelessWidget {
             SizedBox(width: 10),
             Expanded(
               child: Text(
-                '예: 전기기사, 자동차 점검, 생활영어, 프롬프트…',
+                '예: 건강, PLC, 스마트팜, 코딩, 귀촌…',
                 softWrap: true,
                 style: TextStyle(color: AppColors.textMuted, fontSize: 15),
               ),

@@ -24,6 +24,11 @@ const routes = [
   '/sites/car',
   '/sites/finance',
   '/sites/language',
+  '/sites/health',
+  '/sites/plc',
+  '/sites/smart-farm',
+  '/sites/development',
+  '/sites/country-ai',
   '/categories',
   '/learning',
   '/find',
@@ -31,7 +36,7 @@ const routes = [
   '/about',
 ];
 
-test.describe('소통사이트매니저 stage2 e2e', () => {
+test.describe('소통사이트매니저 stage3 e2e', () => {
   test('홈 로드와 콘솔·overflow', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (err) => errors.push(String(err)));
@@ -61,9 +66,9 @@ test.describe('소통사이트매니저 stage2 e2e', () => {
   }
 
   test('전문관·검색·찾기 라우트', async ({ page }) => {
-    await page.goto('/sites/electric');
+    await page.goto('/sites/health');
     await waitForFlutter(page);
-    await expect(page).toHaveURL(/\/sites\/electric/);
+    await expect(page).toHaveURL(/\/sites\/health/);
 
     await page.goto('/find');
     await waitForFlutter(page);
@@ -77,7 +82,7 @@ test.describe('소통사이트매니저 stage2 e2e', () => {
   test('뒤로 가기와 새로고침', async ({ page }) => {
     await page.goto('/sites');
     await waitForFlutter(page);
-    await page.goto('/sites/car');
+    await page.goto('/sites/plc');
     await waitForFlutter(page);
     await page.goBack();
     await waitForFlutter(page);
@@ -95,6 +100,11 @@ test.describe('소통사이트매니저 stage2 e2e', () => {
       'sotong-car.web.app',
       'sotong-finance.web.app',
       'sotong-language.web.app',
+      'sotong-health-site.web.app',
+      'sotongware-plc.web.app',
+      'sotong-smart-farm.web.app',
+      'sotong-dev.web.app',
+      'sotong-country-ai.web.app',
     ]) {
       expect(js).toContain(host);
     }
@@ -106,6 +116,19 @@ test.describe('소통사이트매니저 stage2 e2e', () => {
     expect(robots.ok()).toBeTruthy();
     expect(sitemap.ok()).toBeTruthy();
     expect(await robots.text()).toContain('sitemap.xml');
-    expect(await sitemap.text()).toContain('/sites/electric');
+    const xml = await sitemap.text();
+    expect(xml).toContain('/sites/electric');
+    expect(xml).toContain('/sites/health');
+    expect(xml).toContain('/sites/country-ai');
+  });
+
+  test('모바일 overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto('/');
+    await waitForFlutter(page);
+    expect(await hasHorizontalOverflow(page)).toBeFalsy();
+    await page.goto('/sites/country-ai');
+    await waitForFlutter(page);
+    expect(await hasHorizontalOverflow(page)).toBeFalsy();
   });
 });

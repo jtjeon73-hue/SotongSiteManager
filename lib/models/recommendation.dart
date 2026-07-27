@@ -17,7 +17,12 @@ enum RecommendationPurpose {
   workPractice,
   hobbyCulture,
   futureReady,
-  familyLearning;
+  familyLearning,
+  healthLifestyle,
+  plcAutomation,
+  smartFarmTech,
+  codingDev,
+  ruralDevelopment;
 
   String get label => switch (this) {
     RecommendationPurpose.dailyLife => '생활에 바로 활용',
@@ -26,6 +31,11 @@ enum RecommendationPurpose {
     RecommendationPurpose.hobbyCulture => '취미·교양',
     RecommendationPurpose.futureReady => '미래 준비',
     RecommendationPurpose.familyLearning => '가족과 함께 학습',
+    RecommendationPurpose.healthLifestyle => '건강과 생활습관을 이해하고 싶어요',
+    RecommendationPurpose.plcAutomation => 'PLC와 공장자동화를 배우고 싶어요',
+    RecommendationPurpose.smartFarmTech => '스마트팜과 농업기술을 알고 싶어요',
+    RecommendationPurpose.codingDev => '코딩과 앱 개발을 배우고 싶어요',
+    RecommendationPurpose.ruralDevelopment => '농촌생활과 지역발전을 연구하고 싶어요',
   };
 }
 
