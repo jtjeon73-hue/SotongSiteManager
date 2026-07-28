@@ -329,7 +329,7 @@ abstract final class LearningPathsData {
       durationLabel: '2~4주',
       dailyMinutesLabel: '하루 20~30분',
       siteIds: ['development'],
-      relatedSiteIds: ['ai-story', 'english'],
+      relatedSiteIds: ['ai-story', 'english', 'web-app-dev'],
       keywords: ['코딩', '프로그래밍', '입문', 'Python'],
       icon: Icons.code_outlined,
       sortOrder: 15,

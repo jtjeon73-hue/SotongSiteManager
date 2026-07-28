@@ -160,10 +160,20 @@ abstract final class KnowledgeData {
       title: '코딩과 앱 개발을 배우고 싶어요',
       description: '로드맵·Python·Flutter로 개발 학습을 시작합니다.',
       icon: Icons.code_outlined,
-      siteIds: ['development'],
+      siteIds: ['development', 'web-app-dev'],
       learningOrder: ['로드맵', '기본지식', '언어 입문', '도구·실무', '프로젝트·퀴즈'],
       tips: ['예제 코드는 학습용입니다.', 'API 키를 소스에 넣지 마세요.'],
       keywords: ['코딩', '프로그래밍', 'Flutter', 'Python'],
+    ),
+    LearningGoal(
+      id: 'goal-web-app-mfc',
+      title: '웹·앱·MFC 실무 개발 과정을 따라가고 싶어요',
+      description: '환경·도구·프롬프트·검증·배포를 분야별로 안내합니다.',
+      icon: Icons.developer_board_outlined,
+      siteIds: ['web-app-dev', 'development', 'plc'],
+      learningOrder: ['분야 개요', '환경·도구', '개발 과정', '프롬프트', '검증·배포'],
+      tips: ['서비스 계정 키를 소스에 저장하지 마세요.', '현장 배포 전 안전·매뉴얼을 확인하세요.'],
+      keywords: ['웹개발', '앱개발', 'MFC', '배포', '프롬프트'],
     ),
     LearningGoal(
       id: 'goal-rural',
@@ -187,6 +197,7 @@ abstract final class KnowledgeData {
     'PLC·자동화를 배우고 싶다면 → 소통PLC',
     '스마트팜 기술을 알고 싶다면 → 소통스마트팜',
     '코딩·앱 개발을 시작하고 싶다면 → 소통개발',
+    '웹·앱·MFC 실무 과정을 따라가려면 → 소통웹·앱·MFC DEV',
     '농촌·지역발전을 살펴보고 싶다면 → 소통농촌AI',
   ];
 

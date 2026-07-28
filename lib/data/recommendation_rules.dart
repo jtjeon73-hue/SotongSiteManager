@@ -90,6 +90,7 @@ abstract final class RecommendationRules {
       'plc' => 'development',
       'smart-farm' => 'country-ai',
       'development' => 'ai-story',
+      'web-app-dev' => 'development',
       'country-ai' => 'smart-farm',
       _ => null,
     };
@@ -143,6 +144,7 @@ abstract final class RecommendationRules {
           ? 'path-flutter-intro'
           : 'path-coding-first';
     }
+    if (primary == 'web-app-dev') return 'path-coding-first';
     if (primary == 'country-ai') {
       return purpose == RecommendationPurpose.ruralDevelopment &&
               time == RecommendationTime.longTerm
@@ -174,6 +176,7 @@ abstract final class RecommendationRules {
       'plc' => ('PLC 시작하기와 안전', '센서·통신·제조사 입문'),
       'smart-farm' => ('스마트팜 개념과 적용 범위', '센서·제어·운영의 연결'),
       'development' => ('맞춤 로드맵과 컴퓨터 기초', 'Python 또는 Flutter 입문'),
+      'web-app-dev' => ('웹·앱·MFC 중 관심 분야 개요', '환경·도구·프롬프트·배포 흐름'),
       'country-ai' => ('사매면 이해와 주민의 하루', '현실/제안 라벨을 구분해 읽기'),
       _ => ('전문관 소개부터 살펴보기', '추천 학습 순서 따라가기'),
     };
@@ -190,6 +193,7 @@ abstract final class RecommendationRules {
       'plc' => '소통PLC',
       'smart-farm' => '소통스마트팜',
       'development' => '소통개발',
+      'web-app-dev' => '소통웹·앱·MFC DEV',
       'country-ai' => '소통농촌AI',
       _ => primary,
     };
@@ -369,6 +373,30 @@ abstract final class RelatedKnowledgeData {
       startHint: '소통영어 기초 문장',
       nextHint: '소통개발 용어집·기본지식',
       keywords: ['영어', '개발', '문서'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-dev-webapp',
+      title: '프로그래밍 기초 → 웹·앱·MFC 실무 과정',
+      description:
+          '언어·기초를 익힌 뒤 환경·도구·프롬프트·배포 과정을 보면 '
+          '실제 산출물 준비가 수월해집니다.',
+      fromSiteId: 'development',
+      toSiteId: 'web-app-dev',
+      startHint: '소통개발 로드맵·입문',
+      nextHint: '소통웹·앱·MFC DEV 분야별 과정',
+      keywords: ['개발', '웹', '앱', 'MFC'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-plc-webapp-mfc',
+      title: 'PLC → MFC·현장 배포 실무',
+      description:
+          'PLC·통신 개념을 익힌 뒤 MFC 환경·UI·장치 연동·현장 배포 안내를 연결합니다. '
+          '실제 설비 작업 전 안전절차가 필요합니다.',
+      fromSiteId: 'plc',
+      toSiteId: 'web-app-dev',
+      startHint: '소통PLC 통신·MFC',
+      nextHint: '소통웹·앱·MFC DEV의 MFC 메뉴',
+      keywords: ['PLC', 'MFC', '배포'],
     ),
   ];
 }

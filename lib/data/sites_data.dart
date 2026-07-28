@@ -496,7 +496,7 @@ abstract final class SitesData {
           '실제 설비 작업 전 전원 차단과 안전절차를 지키고, '
           '현장 매뉴얼과 자격 있는 담당자 확인이 필요합니다. '
           '개인용·상용 최신 프레임·메모리 주소를 보장하지 않습니다.',
-      relatedSiteIds: ['elec', 'development', 'smart-farm'],
+      relatedSiteIds: ['elec', 'development', 'smart-farm', 'web-app-dev'],
       secondaryCategoryIds: ['elec-tech', 'dev-automation', 'smartfarm-agri'],
       homeGroupIds: ['tech'],
       confirmedFeatures: [
@@ -645,7 +645,13 @@ abstract final class SitesData {
           '예제 코드는 학습용입니다. '
           '실제 운영 전 보안·오류·백업을 검토하고, '
           '비밀번호와 API 키를 소스에 저장하지 마세요.',
-      relatedSiteIds: ['ai-story', 'plc', 'smart-farm', 'english'],
+      relatedSiteIds: [
+        'ai-story',
+        'plc',
+        'smart-farm',
+        'english',
+        'web-app-dev',
+      ],
       secondaryCategoryIds: ['ai-digital', 'plc-automation', 'smartfarm-agri'],
       homeGroupIds: ['tech'],
       confirmedFeatures: [
@@ -654,6 +660,87 @@ abstract final class SitesData {
         '도구·실무·프로젝트 레슨',
         '용어집·검색',
         '학습용 코드 정책',
+      ],
+    ),
+    KnowledgeSite(
+      id: 'web-app-dev',
+      routeSlug: 'web-app-dev',
+      name: '소통웹·앱·MFC DEV',
+      shortName: '웹앱MFC',
+      description: '웹·Flutter 앱·MFC 개발을 단계별로 학습하고 실무 자료와 개발 프롬프트를 확인하는 개발 전문관',
+      detailedDescription:
+          '소통웹·앱·MFC DEV(SotongWebAppDev)는 웹사이트·앱·MFC 개발에 필요한 '
+          '환경·도구·개발과정·AI 프롬프트·설정·검증·배포를 체계적으로 정리한 '
+          '개인 개발 지식 플랫폼입니다. '
+          '웹 개발, 앱 개발, MFC 개발 메뉴로 분야별 순서를 따라가며 '
+          'Cursor/GPT 프롬프트 복사, 검증·수수료·Git·배포 절차, '
+          '웹(Firebase)·앱(APK/Play)·MFC(현장 배포) 준비를 확인할 수 있습니다. '
+          '예제·프롬프트는 학습·참고용이며 실제 운영 전 보안·백업·현장 절차 확인이 필요합니다.',
+      categoryId: 'dev-automation',
+      icon: Icons.developer_board_outlined,
+      color: Color(0xFF2F5D8C),
+      url: 'https://sotong-web-app-dev.web.app',
+      status: SiteStatus.live,
+      targetUsers: ['웹 개발 입문자', 'Flutter 앱 학습자', 'MFC·현장 개발자', '실무 전환 학습자'],
+      difficulty: DifficultyLevel.allLevels,
+      topics: ['웹 개발', '앱 개발', 'MFC 개발', '개발 환경·도구', '프롬프트', '검증·배포'],
+      keywords: [
+        '웹개발',
+        '앱개발',
+        'MFC',
+        'Flutter',
+        'Firebase',
+        '프롬프트',
+        '배포',
+        'SotongWebAppDev',
+      ],
+      recommendedPath: [
+        '관심 분야(웹·앱·MFC) 개요 확인',
+        '개발환경·도구 선택 가이드 살펴보기',
+        '개발 과정과 프롬프트 메뉴로 실습 흐름 잡기',
+        '검증·Git·배포(유지보수) 절차 확인',
+        '소통개발·소통PLC와 교차 학습',
+      ],
+      featured: true,
+      sortOrder: 11,
+      whyMatters:
+          '언어 문법만으로는 실제 웹·앱·MFC 산출물을 만들기 어렵습니다. '
+          '환경·도구·과정·검증·배포가 한 줄로 이어져야 실무 학습이 됩니다.',
+      learningOutcomes: [
+        '웹·앱·MFC 각각의 학습·배포 흐름을 구분할 수 있다',
+        '환경·도구·프롬프트를 단계별로 활용할 수 있다',
+        '검증·Git·배포 전 점검 항목을 확인할 수 있다',
+      ],
+      coreQuestion: '웹·앱·MFC 개발을 환경부터 배포까지 어떻게 따라갈까?',
+      valueProposition: '분야별 과정·도구·프롬프트·배포를 한곳에서 안내합니다.',
+      startPoint: '웹·앱·MFC 중 관심 분야의 개요·환경 메뉴부터 시작하세요.',
+      menuHighlights: [
+        '웹사이트 개발(환경·도구·과정·프롬프트·Firebase)',
+        '앱 개발(환경·도구·과정·APK·Play Store)',
+        'MFC 개발(환경·도구·UI·PLC 연동·현장 배포)',
+        '검증·개선·유지보수',
+      ],
+      beginnerFocus: ['분야 개요', '환경·도구 선택', '기본 개발 과정'],
+      intermediateFocus: ['프롬프트 활용', '검증·Git', '배포 준비'],
+      advancedFocus: ['아키텍처·보안·성능 참고', '운영·플레이북', 'PLC·현장 연동'],
+      useCases: [
+        '웹 Hosting 배포 전 절차 점검하기',
+        'Flutter 앱 서명·스토어 준비 흐름 보기',
+        'MFC와 PLC 장치 연동 학습을 소통PLC와 함께 보기',
+      ],
+      safetyNotice:
+          '예제 코드와 프롬프트는 학습·참고용입니다. '
+          '실제 운영·현장 배포 전 보안·오류·백업·자격·매뉴얼을 확인하고, '
+          '비밀번호와 API 키·서비스 계정 키를 소스에 저장하지 마세요.',
+      relatedSiteIds: ['development', 'plc', 'ai-story'],
+      secondaryCategoryIds: ['plc-automation', 'ai-digital'],
+      homeGroupIds: ['tech'],
+      confirmedFeatures: [
+        '웹·앱·MFC 분야별 메뉴',
+        '환경·도구·과정·프롬프트',
+        '검증·Git·배포·유지보수',
+        'Firebase·APK/Play·현장 배포 안내',
+        '학습·참고용 프롬프트·자료',
       ],
     ),
     KnowledgeSite(

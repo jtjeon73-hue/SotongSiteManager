@@ -25,9 +25,9 @@ void main() {
     expect(results.first.reasons, isNotEmpty);
   });
 
-  test('카탈로그에 10개 운영 사이트가 있다', () {
-    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 10);
-    expect(repository.liveSites.length, 10);
+  test('카탈로그에 11개 운영 사이트가 있다', () {
+    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 11);
+    expect(repository.liveSites.length, 11);
   });
 
   test('동의어 검색이 금융·영어·신규 분야를 찾는다', () {
@@ -41,6 +41,14 @@ void main() {
     );
     expect(
       repository.searchTyped('코딩').any((r) => r.siteId == 'development'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('MFC').any((r) => r.siteId == 'web-app-dev'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('웹개발').any((r) => r.siteId == 'web-app-dev'),
       isTrue,
     );
     expect(

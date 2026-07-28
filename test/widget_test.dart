@@ -57,7 +57,7 @@ void main() {
     expect(find.textContaining('세상의 중요한 지식을 쉽고 깊이 있게'), findsOneWidget);
   });
 
-  testWidgets('10개 현재 사이트가 표시된다', (tester) async {
+  testWidgets('11개 현재 사이트가 표시된다', (tester) async {
     await tester.binding.setSurfaceSize(const Size(1280, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(_buildApp(location: AppRoutes.sites));
@@ -65,7 +65,7 @@ void main() {
     for (final site in KnowledgeData.sites) {
       expect(find.text(site.name), findsWidgets);
     }
-    expect(KnowledgeData.sites.length, 10);
+    expect(KnowledgeData.sites.length, 11);
   });
 
   test('사이트 외부 주소가 정확하다', () {
@@ -79,6 +79,7 @@ void main() {
     expect(urls['plc'], 'https://sotongware-plc.web.app');
     expect(urls['smart-farm'], 'https://sotong-smart-farm.web.app');
     expect(urls['development'], 'https://sotong-dev.web.app');
+    expect(urls['web-app-dev'], 'https://sotong-web-app-dev.web.app');
     expect(urls['country-ai'], 'https://sotong-country-ai.web.app');
   });
 
@@ -120,7 +121,11 @@ void main() {
     await tester.pumpWidget(_buildApp(location: AppRoutes.learning));
     await tester.pumpAndSettle();
     final goal = find.text('AI를 제대로 이해하고 활용하고 싶어요');
-    await tester.scrollUntilVisible(goal, 300, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(
+      goal,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.tap(goal);
     await tester.pumpAndSettle();
     expect(find.text('소통AI스토리'), findsWidgets);
@@ -203,9 +208,9 @@ void main() {
     expect(find.text('추가데모관'), findsWidgets);
   });
 
-  test('10개 전문관 상세 데이터와 slug가 유효하다', () {
+  test('11개 전문관 상세 데이터와 slug가 유효하다', () {
     final repo = SiteRepository();
-    expect(repo.liveSites.length, 10);
+    expect(repo.liveSites.length, 11);
     for (final site in repo.liveSites) {
       expect(site.routeSlug, isNotEmpty);
       expect(site.coreQuestion, isNotEmpty);
@@ -220,6 +225,7 @@ void main() {
     expect(repo.findSiteBySlug('plc')?.id, 'plc');
     expect(repo.findSiteBySlug('smart-farm')?.id, 'smart-farm');
     expect(repo.findSiteBySlug('development')?.id, 'development');
+    expect(repo.findSiteBySlug('web-app-dev')?.id, 'web-app-dev');
     expect(repo.findSiteBySlug('country-ai')?.id, 'country-ai');
   });
 
@@ -407,7 +413,25 @@ void main() {
     }
     expect(KnowledgeData.homeGroups.length, 3);
     final grouped = KnowledgeData.homeGroups.expand((g) => g.siteIds).toSet();
-    expect(grouped.length, 10);
+    expect(grouped.length, 11);
+  });
+
+  test('SotongWebAppDev가 정확히 1개이며 URL이 정확하다', () {
+    final matches = KnowledgeData.sites
+        .where(
+          (s) => s.id == 'web-app-dev' || s.url.contains('sotong-web-app-dev'),
+        )
+        .toList();
+    expect(matches.length, 1);
+    final site = matches.single;
+    expect(site.name, '소통웹·앱·MFC DEV');
+    expect(site.url, 'https://sotong-web-app-dev.web.app');
+    expect(site.routeSlug, 'web-app-dev');
+    expect(site.status, SiteStatus.live);
+    final repo = SiteRepository();
+    expect(repo.liveSites.length, KnowledgeData.sites.length);
+    expect(repo.allSites.length, 11);
+    expect(repo.liveSites.length, 11);
   });
 
   testWidgets('홈 핵심 행동 버튼이 보인다', (tester) async {

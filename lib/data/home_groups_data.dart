@@ -11,8 +11,8 @@ abstract final class HomeGroupsData {
     HomeSiteGroup(
       id: 'tech',
       title: '기술과 실무',
-      subtitle: '전기·PLC·개발·스마트팜으로 현장과 학습을 연결합니다.',
-      siteIds: ['elec', 'plc', 'development', 'smart-farm'],
+      subtitle: '전기·PLC·개발·웹앱MFC·스마트팜으로 현장과 학습을 연결합니다.',
+      siteIds: ['elec', 'plc', 'development', 'web-app-dev', 'smart-farm'],
     ),
     HomeSiteGroup(
       id: 'future',
