@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           SectionHeader(
-            title: '열 개 지식 전문관',
+            title: '지식 전문관',
             subtitle: '생활·기술·AI·지역으로 묶어, 필요한 전문관만 골라 보세요.',
             action: TextButton(
               onPressed: () => context.go(AppRoutes.sites),
