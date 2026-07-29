@@ -25,9 +25,9 @@ void main() {
     expect(results.first.reasons, isNotEmpty);
   });
 
-  test('카탈로그에 11개 운영 사이트가 있다', () {
-    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 11);
-    expect(repository.liveSites.length, 11);
+  test('카탈로그에 12개 운영 사이트가 있다', () {
+    expect(KnowledgeData.sites.where((s) => s.url.isNotEmpty).length, 12);
+    expect(repository.liveSites.length, 12);
   });
 
   test('동의어 검색이 금융·영어·신규 분야를 찾는다', () {
@@ -57,6 +57,18 @@ void main() {
     );
     expect(
       repository.searchTyped('귀촌').any((r) => r.siteId == 'country-ai'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('노후설계').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('자녀 없는 부부').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('장기요양').any((r) => r.siteId == 'save-live'),
       isTrue,
     );
     final sensor = repository.searchTyped('센서');

@@ -20,5 +20,11 @@ abstract final class HomeGroupsData {
       subtitle: 'AI 이해와 농촌·지역발전 아이디어를 함께 봅니다.',
       siteIds: ['ai-story', 'country-ai'],
     ),
+    HomeSiteGroup(
+      id: 'life-retirement',
+      title: '인생·노후설계',
+      subtitle: '은퇴·평생일·주거·돌봄·삶의 마무리를 함께 살펴봅니다.',
+      siteIds: ['save-live'],
+    ),
   ];
 }

@@ -72,6 +72,131 @@ abstract final class KnowledgeData {
       categoryId: 'english-language',
       tags: ['영어', '생활', '습관'],
     ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-holistic',
+      title: '노후설계가 돈만의 문제가 아닌 이유',
+      summary:
+          '일·건강·관계·주거·돌봄이 함께 맞물립니다. '
+          'SotongSaveLive에서 다양한 노후 시나리오를 읽고 비교해 보세요.',
+      whyItMatters: '돈만 보면 놓치는 선택지가 많습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['노후설계', '인생설계', '시나리오'],
+      isNew: true,
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-freelance',
+      title: '직장인과 프리랜서의 노후가 다른 이유',
+      summary:
+          '소득 구조·보험·은퇴 시점이 다릅니다. '
+          '평생일과 부분은퇴 시나리오를 비교해 보세요.',
+      whyItMatters: '같은 나이라도 일의 형태에 따라 준비가 달라집니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['프리랜서', '평생일', '은퇴'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-business',
+      title: '사업자의 은퇴·승계·축소 선택',
+      summary:
+          '사업 정리·승계·축소는 인생 경로가 달라집니다. '
+          '개인 맞춤 세무·법률 조언은 아닙니다.',
+      whyItMatters: '사업자 노후는 직장인과 다른 결정 포인트가 있습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['사업', '은퇴', '승계'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-rural',
+      title: '농촌 노후의 장점과 위험',
+      summary:
+          '생활비·자연·커뮤니티와 의료·교통·소득 불안을 함께 봅니다. '
+          '제도·지역 정보는 공식 출처 확인이 필요합니다.',
+      whyItMatters: '귀촌·귀농 노후는 낭만만으로 결정하기 어렵습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['농촌', '귀촌', '노후'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-childfree',
+      title: '자녀 없이 부부가 준비할 사항',
+      summary: '돌봄·관계망·주거·의사결정을 부부가 주체적으로 준비하는 시나리오를 읽어 보세요.',
+      whyItMatters: '자녀 돌봄에 기대기 어려운 선택지를 미리 봐야 합니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['자녀 없는 부부', '부부', '돌봄'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-solo',
+      title: '혼자 남았을 때의 주거와 관계망',
+      summary: '1인 가구 전환·주거·관계망·돌봄을 현실적으로 비교합니다.',
+      whyItMatters: '혼자 노후는 주거와 관계 설계가 특히 중요합니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['1인 가구', '주거', '관계'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-housing',
+      title: '실버타운과 고령자복지주택의 차이',
+      summary:
+          '입주 조건·비용·서비스·지역 차이를 비교합니다. '
+          '모집·요건은 공식 공고에서 확인하세요.',
+      whyItMatters: '이름만 비슷해도 제도와 비용 구조가 다릅니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['실버타운', '고령자복지주택', '주거'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-care',
+      title: '재가돌봄·요양원·요양병원의 차이',
+      summary:
+          '돌봄 수준·비용·가족 역할이 다릅니다. '
+          '의료·요양 제도는 공식 안내를 확인하세요.',
+      whyItMatters: '돌봄 방식을 미리 이해하면 위기 때 혼란이 줄어듭니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['장기요양', '재가돌봄', '요양원'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-work',
+      title: '평생일과 부분은퇴',
+      summary: '완전 은퇴 대신 일의 속도를 조절하는 선택을 시나리오로 비교합니다.',
+      whyItMatters: '모두가 같은 시점에 일을 멈추지는 않습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['평생일', '부분은퇴', '은퇴'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-mind',
+      title: '마음쉼터와 노후의 정신적 안정',
+      summary: '법화경·마음 읽기로 노후의 마음을 차분히 정리할 수 있습니다.',
+      whyItMatters: '몸과 돈만큼 마음의 준비도 삶의 질에 영향을 줍니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['마음쉼터', '법화경', '마음안정'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-legacy',
+      title: '사전연명의료의향서와 아름다운 마무리',
+      summary:
+          '의사소통·가족 정리·존엄한 마무리를 교육용으로 살펴봅니다. '
+          '법률·의료 절차는 전문가·공식 안내 확인이 필요합니다.',
+      whyItMatters: '미리 생각해 두면 가족의 부담을 줄일 수 있습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['사전연명의료의향서', '마무리', '가족'],
+    ),
+    FeaturedKnowledge(
+      id: 'fk-save-live-source',
+      title: '노후정보의 공식 출처 확인법',
+      summary:
+          '연금·요양·주거·의료 제도는 변동이 잦습니다. '
+          '공식 원문과 확인일을 함께 보는 습관이 필요합니다.',
+      whyItMatters: '오래된 정보로 결정하면 손해를 볼 수 있습니다.',
+      siteId: 'save-live',
+      categoryId: 'life-retirement',
+      tags: ['출처', '제도', '확인'],
+    ),
   ];
 
   static const List<LearningGoal> learningGoals = [
@@ -185,6 +310,16 @@ abstract final class KnowledgeData {
       tips: ['AI 제안은 참고자료이며 최종 결정이 아닙니다.'],
       keywords: ['농촌', '귀촌', '지역', '사매'],
     ),
+    LearningGoal(
+      id: 'goal-retirement',
+      title: '노후와 인생설계를 준비하고 싶어요',
+      description: '다양한 노후 인생과 시나리오를 읽고 비교하며 방향을 생각합니다.',
+      icon: Icons.self_improvement_outlined,
+      siteIds: ['save-live'],
+      learningOrder: ['노후맞이 인생들', 'AI 인생로드맵', '돈과 평생일', '주거·돌봄', '마음·마무리'],
+      tips: ['개인정보 입력 없이 읽고 비교하세요.', '제도·모집정보는 공식 출처에서 확인하세요.'],
+      keywords: ['노후', '은퇴', '인생설계', '실버타운', '장기요양'],
+    ),
   ];
 
   static const List<String> starterPaths = [
@@ -199,6 +334,7 @@ abstract final class KnowledgeData {
     '코딩·앱 개발을 시작하고 싶다면 → 소통개발',
     '웹·앱·MFC 실무 과정을 따라가려면 → 소통웹·앱·MFC DEV',
     '농촌·지역발전을 살펴보고 싶다면 → 소통농촌AI',
+    '노후·인생설계를 읽고 비교하고 싶다면 → SotongSaveLive',
   ];
 
   static const List<String> learningMethodSteps = [
@@ -211,7 +347,6 @@ abstract final class KnowledgeData {
 
   static const List<String> expansionFields = [
     '취미·음악',
-    '노후생활',
     '역사·과학',
     '자격증 통합',
     '여행·문화',

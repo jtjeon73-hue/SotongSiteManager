@@ -22,7 +22,8 @@ enum RecommendationPurpose {
   plcAutomation,
   smartFarmTech,
   codingDev,
-  ruralDevelopment;
+  ruralDevelopment,
+  retirementPlanning;
 
   String get label => switch (this) {
     RecommendationPurpose.dailyLife => '생활에 바로 활용',
@@ -36,6 +37,7 @@ enum RecommendationPurpose {
     RecommendationPurpose.smartFarmTech => '스마트팜과 농업기술을 알고 싶어요',
     RecommendationPurpose.codingDev => '코딩과 앱 개발을 배우고 싶어요',
     RecommendationPurpose.ruralDevelopment => '농촌생활과 지역발전을 연구하고 싶어요',
+    RecommendationPurpose.retirementPlanning => '노후와 인생설계를 준비하고 싶어요',
   };
 }
 

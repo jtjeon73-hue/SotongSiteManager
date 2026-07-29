@@ -115,6 +115,27 @@ class SiteDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+          if (site.quickLinks.isNotEmpty)
+            _Section(
+              title: '주요 바로가기',
+              child: Column(
+                children: [
+                  for (final link in site.quickLinks)
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(
+                        Icons.open_in_new,
+                        color: AppColors.teal,
+                      ),
+                      title: Text(link.label),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => AppScope.linkServiceOf(
+                        context,
+                      ).openExternal(link.url),
+                    ),
+                ],
+              ),
+            ),
           _Section(
             title: '처음 시작하는 순서',
             child: Column(

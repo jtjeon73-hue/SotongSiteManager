@@ -30,6 +30,7 @@ const routes = [
   '/sites/development',
   '/sites/web-app-dev',
   '/sites/country-ai',
+  '/sites/save-live',
   '/categories',
   '/learning',
   '/find',
@@ -107,6 +108,7 @@ test.describe('소통사이트매니저 stage3 e2e', () => {
       'sotong-dev.web.app',
       'sotong-web-app-dev.web.app',
       'sotong-country-ai.web.app',
+      'sotong-save-live.web.app',
     ]) {
       expect(js).toContain(host);
     }
@@ -123,6 +125,7 @@ test.describe('소통사이트매니저 stage3 e2e', () => {
     expect(xml).toContain('/sites/health');
     expect(xml).toContain('/sites/web-app-dev');
     expect(xml).toContain('/sites/country-ai');
+    expect(xml).toContain('/sites/save-live');
   });
 
   test('모바일 overflow', async ({ page }) => {

@@ -57,7 +57,7 @@ void main() {
     expect(find.textContaining('세상의 중요한 지식을 쉽고 깊이 있게'), findsOneWidget);
   });
 
-  testWidgets('11개 현재 사이트가 표시된다', (tester) async {
+  testWidgets('12개 현재 사이트가 표시된다', (tester) async {
     await tester.binding.setSurfaceSize(const Size(1280, 1600));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(_buildApp(location: AppRoutes.sites));
@@ -65,7 +65,7 @@ void main() {
     for (final site in KnowledgeData.sites) {
       expect(find.text(site.name), findsWidgets);
     }
-    expect(KnowledgeData.sites.length, 11);
+    expect(KnowledgeData.sites.length, 12);
   });
 
   test('사이트 외부 주소가 정확하다', () {
@@ -81,6 +81,7 @@ void main() {
     expect(urls['development'], 'https://sotong-dev.web.app');
     expect(urls['web-app-dev'], 'https://sotong-web-app-dev.web.app');
     expect(urls['country-ai'], 'https://sotong-country-ai.web.app');
+    expect(urls['save-live'], 'https://sotong-save-live.web.app');
   });
 
   testWidgets('분야 필터가 선택한 분야 사이트만 보여준다', (tester) async {
@@ -208,9 +209,9 @@ void main() {
     expect(find.text('추가데모관'), findsWidgets);
   });
 
-  test('11개 전문관 상세 데이터와 slug가 유효하다', () {
+  test('12개 전문관 상세 데이터와 slug가 유효하다', () {
     final repo = SiteRepository();
-    expect(repo.liveSites.length, 11);
+    expect(repo.liveSites.length, 12);
     for (final site in repo.liveSites) {
       expect(site.routeSlug, isNotEmpty);
       expect(site.coreQuestion, isNotEmpty);
@@ -293,7 +294,7 @@ void main() {
 
   test('학습 코스 데이터 무결성', () {
     final repo = SiteRepository();
-    expect(repo.learningPaths.length, greaterThanOrEqualTo(18));
+    expect(repo.learningPaths.length, greaterThanOrEqualTo(22));
     for (final path in repo.learningPaths) {
       expect(path.steps.length, inInclusiveRange(3, 6));
       expect(path.siteIds, isNotEmpty);
@@ -326,7 +327,7 @@ void main() {
     final liveCats = repo.categories
         .where((c) => c.contentStatus.label == '운영 중')
         .toList();
-    expect(liveCats.length, 10);
+    expect(liveCats.length, 11);
     final ids = repo.allSites.map((s) => s.id).toList();
     expect(ids.toSet().length, ids.length);
     final slugs = repo.allSites.map((s) => s.routeSlug).toList();
@@ -411,9 +412,9 @@ void main() {
       expect(item.startHint, isNotEmpty);
       expect(item.nextHint, isNotEmpty);
     }
-    expect(KnowledgeData.homeGroups.length, 3);
+    expect(KnowledgeData.homeGroups.length, 4);
     final grouped = KnowledgeData.homeGroups.expand((g) => g.siteIds).toSet();
-    expect(grouped.length, 11);
+    expect(grouped.length, 12);
   });
 
   test('SotongWebAppDev가 정확히 1개이며 URL이 정확하다', () {
@@ -430,8 +431,47 @@ void main() {
     expect(site.status, SiteStatus.live);
     final repo = SiteRepository();
     expect(repo.liveSites.length, KnowledgeData.sites.length);
-    expect(repo.allSites.length, 11);
-    expect(repo.liveSites.length, 11);
+    expect(repo.allSites.length, 12);
+    expect(repo.liveSites.length, 12);
+  });
+
+  test('SotongSaveLive가 정확히 1개이며 URL·slug가 정확하다', () {
+    final matches = KnowledgeData.sites
+        .where((s) => s.id == 'save-live' || s.url.contains('sotong-save-live'))
+        .toList();
+    expect(matches.length, 1);
+    final site = matches.single;
+    expect(site.name, 'SotongSaveLive');
+    expect(site.url, 'https://sotong-save-live.web.app');
+    expect(site.routeSlug, 'save-live');
+    expect(site.status, SiteStatus.live);
+    expect(site.quickLinks, isNotEmpty);
+    final repo = SiteRepository();
+    expect(repo.findSiteBySlug('save-live')?.id, 'save-live');
+    expect(
+      repo.searchTyped('노후설계').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repo.searchTyped('실버타운').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repo.searchTyped('마음쉼터').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repo
+          .recommend(
+            const RecommendationProfile(
+              purpose: RecommendationPurpose.retirementPlanning,
+              level: RecommendationLevel.firstStart,
+              timeBudget: RecommendationTime.thirtyMinutes,
+            ),
+          )
+          .primarySiteId,
+      'save-live',
+    );
   });
 
   testWidgets('홈 핵심 행동 버튼이 보인다', (tester) async {
@@ -445,5 +485,6 @@ void main() {
     expect(find.text('생활과 자기계발'), findsOneWidget);
     expect(find.text('기술과 실무'), findsOneWidget);
     expect(find.text('AI와 미래·지역'), findsOneWidget);
+    expect(find.text('인생·노후설계'), findsOneWidget);
   });
 }

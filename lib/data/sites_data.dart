@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/difficulty_level.dart';
 import '../models/knowledge_site.dart';
+import '../models/site_quick_link.dart';
 import '../models/site_status.dart';
 
 /// Specialist hall catalog. Keep URLs and IDs stable.
@@ -814,6 +815,169 @@ abstract final class SitesData {
         '차별화 전략·로드맵·시범사업',
         '현실/제안/검증필요 라벨',
         '로컬 데이터 기반(생성형 AI 결정 아님)',
+      ],
+    ),
+    KnowledgeSite(
+      id: 'save-live',
+      routeSlug: 'save-live',
+      name: 'SotongSaveLive',
+      shortName: '소통 AI 인생·노후설계',
+      description: '입력 없이 다양한 노후 인생과 미래 시나리오를 읽고 비교하는 AI 인생·노후설계 플랫폼',
+      detailedDescription:
+          'SotongSaveLive는 정해진 질문에 답하거나 개인정보를 입력하는 방식이 아니라, '
+          '다양한 사람들의 노후 인생과 선택에 따른 미래를 읽고 비교하며 '
+          '자신의 방향을 생각하도록 돕는 AI 인생·노후설계 플랫폼입니다. '
+          '로컬 콘텐츠 기반이며 외부 생성형 AI API는 연결되어 있지 않습니다. '
+          '제도·모집정보는 공식 원문에서 최신 확인이 필요합니다.',
+      categoryId: 'life-retirement',
+      icon: Icons.self_improvement_outlined,
+      color: Color(0xFF8A6A2F),
+      url: 'https://sotong-save-live.web.app',
+      status: SiteStatus.live,
+      targetUsers: [
+        '직장생활 후 은퇴를 준비하는 사람',
+        '이미 은퇴한 사람',
+        '프리랜서로 계속 일하는 사람',
+        '사업을 이어가거나 정리하려는 사람',
+        '농촌에서 농사와 생활을 이어가는 사람',
+        '공무원·교직·공공기관 퇴직자',
+        '전업주부·가족돌봄 중심으로 살아온 사람',
+        '혼자 노후를 맞이하는 1인 가구',
+        '부부가 함께 노후를 맞이하는 사람',
+        '자녀 없이 부부가 함께 살아가는 사람',
+        '재취업·제2직업을 준비하는 사람',
+        '전문기술·예술·창작을 이어가는 사람',
+        '경제적 준비가 부족한 상태에서 다시 설계하는 사람',
+      ],
+      difficulty: DifficultyLevel.allLevels,
+      topics: [
+        '노후맞이 인생들',
+        'AI 인생로드맵',
+        '돈과 평생일',
+        '건강·관계·생활',
+        '농촌과 제2의 인생',
+        '노후 주거·돌봄',
+        '마음쉼터',
+        '아름다운 마무리',
+      ],
+      keywords: [
+        'AI 인생설계',
+        '노후설계',
+        '은퇴준비',
+        '평생일',
+        '프리랜서 노후',
+        '사업자 노후',
+        '농촌생활',
+        '부부 노후',
+        '자녀 없는 부부',
+        '1인 가구',
+        '실버타운',
+        '고령자복지주택',
+        '장기요양',
+        '노후 주거',
+        '마음쉼터',
+        '아름다운 마무리',
+        'SotongSaveLive',
+        '소통세이브라이브',
+        '세이브라이브',
+      ],
+      recommendedPath: [
+        '노후맞이 인생들에서 다양한 유형 살펴보기',
+        '내 상황과 비슷한 인생 경로 비교',
+        'AI 인생로드맵으로 연령대별 흐름 확인',
+        '돈·건강·주거·돌봄 메뉴를 연결해 보기',
+        '마음쉼터·아름다운 마무리로 정리',
+      ],
+      featured: true,
+      sortOrder: 12,
+      whyMatters:
+          '다양한 노후의 삶과 선택을 AI 관점으로 비교하며, '
+          '평생일·건강·관계·농촌생활·주거·돌봄·마음수양과 '
+          '아름다운 삶의 마무리를 함께 살펴보는 인생설계 전문관입니다.',
+      learningOutcomes: [
+        '노후설계가 돈만의 문제가 아님을 이해할 수 있다',
+        '다양한 인생 유형과 시나리오를 비교할 수 있다',
+        '주거·돌봄·마음수양 선택지의 차이를 구분할 수 있다',
+        '개인 맞춤 확정조언이 아닌 참고 학습의 한계를 안다',
+      ],
+      coreQuestion: '나에게 가까운 노후 인생과 선택을 어떻게 비교해 볼까?',
+      valueProposition: '입력 없이 다양한 노후 인생과 미래 시나리오를 읽고 비교합니다.',
+      startPoint: '노후맞이 인생들 또는 AI 인생로드맵부터 시작하세요.',
+      menuHighlights: [
+        '노후맞이 인생들',
+        'AI 인생로드맵',
+        '돈과 평생일',
+        '건강·관계·생활',
+        '농촌과 제2의 인생',
+        '노후 주거·돌봄',
+        '마음쉼터',
+        '아름다운 마무리',
+      ],
+      beginnerFocus: ['노후맞이 인생 유형 읽기', '연령대별 로드맵 훑어보기', '돈·일·건강의 연결 이해'],
+      intermediateFocus: [
+        '부부·1인 가구·농촌 시나리오 비교',
+        '실버타운·공공주택·돌봄시설 차이',
+        '5년·10년 후 변화 시나리오',
+      ],
+      advancedFocus: ['평생일·부분은퇴·사업 정리', '재가·시설 돌봄 선택 비교', '사전연명의료의향·삶의 마무리 정리'],
+      useCases: [
+        '은퇴 전 다양한 노후 선택지를 미리 읽고 비교하기',
+        '자녀 없는 부부·1인 가구의 주거·돌봄 준비 살펴보기',
+        '농촌 노후와 평생일을 함께 검토하기',
+        '실버타운·고령자복지주택·장기요양 차이 이해하기',
+        '마음쉼터로 노후 정신적 안정 읽기',
+      ],
+      safetyNotice:
+          '의료·법률·연금·세무 내용은 개인 맞춤 확정조언이 아닙니다. '
+          '제도·모집정보·요양·주거 시설 정보는 공식 출처에서 최신 확인이 필요합니다. '
+          '개인정보와 자산정보를 입력하지 않는 읽기·비교 플랫폼입니다.',
+      relatedSiteIds: ['health', 'finance', 'country-ai', 'ai-story'],
+      secondaryCategoryIds: ['health-life', 'finance-economy', 'farm-rural'],
+      homeGroupIds: ['life-retirement'],
+      confirmedFeatures: [
+        '노후맞이 인생들·인생 유형 비교',
+        'AI 인생로드맵(연령대·시나리오)',
+        '돈과 평생일·건강·관계·생활',
+        '농촌·주거·돌봄·마음쉼터·마무리',
+        '로컬 콘텐츠·외부 생성형 AI 미연결',
+        '로그인·개인정보 저장 없음',
+        'Firebase Spark Hosting 운영',
+      ],
+      quickLinks: [
+        SiteQuickLink(label: '홈', url: 'https://sotong-save-live.web.app/'),
+        SiteQuickLink(
+          label: '노후맞이 인생들',
+          url: 'https://sotong-save-live.web.app/life-paths',
+        ),
+        SiteQuickLink(
+          label: '자녀 없이 부부가 함께 살아가는 노후',
+          url:
+              'https://sotong-save-live.web.app/life-paths/childfree-couple-retirement',
+        ),
+        SiteQuickLink(
+          label: 'AI 인생로드맵',
+          url: 'https://sotong-save-live.web.app/roadmap',
+        ),
+        SiteQuickLink(
+          label: '돈과 평생일',
+          url: 'https://sotong-save-live.web.app/money-work',
+        ),
+        SiteQuickLink(
+          label: '농촌과 제2의 인생',
+          url: 'https://sotong-save-live.web.app/rural',
+        ),
+        SiteQuickLink(
+          label: '노후 주거·돌봄',
+          url: 'https://sotong-save-live.web.app/housing-care',
+        ),
+        SiteQuickLink(
+          label: '마음쉼터',
+          url: 'https://sotong-save-live.web.app/mind-lounge',
+        ),
+        SiteQuickLink(
+          label: '아름다운 마무리',
+          url: 'https://sotong-save-live.web.app/legacy',
+        ),
       ],
     ),
   ];

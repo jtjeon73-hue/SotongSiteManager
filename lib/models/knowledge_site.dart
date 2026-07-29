@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'difficulty_level.dart';
+import 'site_quick_link.dart';
 import 'site_status.dart';
 
 /// A linked specialist knowledge hall in the Sotong ecosystem.
@@ -40,6 +41,7 @@ class KnowledgeSite {
     this.confirmedFeatures = const [],
     this.secondaryCategoryIds = const [],
     this.homeGroupIds = const [],
+    this.quickLinks = const [],
   });
 
   final String id;
@@ -82,6 +84,9 @@ class KnowledgeSite {
   /// Home section ids (life / tech / future). A hall may appear in more than one.
   final List<String> homeGroupIds;
 
+  /// Verified routes on the specialist site for quick external navigation.
+  final List<SiteQuickLink> quickLinks;
+
   bool get isLive => status == SiteStatus.live && url.isNotEmpty;
 
   KnowledgeSite copyWith({
@@ -118,6 +123,7 @@ class KnowledgeSite {
     List<String>? confirmedFeatures,
     List<String>? secondaryCategoryIds,
     List<String>? homeGroupIds,
+    List<SiteQuickLink>? quickLinks,
   }) {
     return KnowledgeSite(
       id: id ?? this.id,
@@ -153,6 +159,7 @@ class KnowledgeSite {
       confirmedFeatures: confirmedFeatures ?? this.confirmedFeatures,
       secondaryCategoryIds: secondaryCategoryIds ?? this.secondaryCategoryIds,
       homeGroupIds: homeGroupIds ?? this.homeGroupIds,
+      quickLinks: quickLinks ?? this.quickLinks,
     );
   }
 }

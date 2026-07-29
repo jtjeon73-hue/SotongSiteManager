@@ -15,6 +15,7 @@ const routes = [
   '/sites/development',
   '/sites/web-app-dev',
   '/sites/country-ai',
+  '/sites/save-live',
   '/categories',
   '/learning',
   '/find',
@@ -62,11 +63,13 @@ test.describe('production stage3', () => {
     const sitemap = await request.get(`${BASE}/sitemap.xml`);
     expect(sitemap.ok()).toBeTruthy();
     expect(await sitemap.text()).toContain('/sites/web-app-dev');
+    expect(await sitemap.text()).toContain('/sites/save-live');
     const js = await (await request.get(`${BASE}/main.dart.js`)).text();
     expect(js).toContain('sotong-elec.web.app');
     expect(js).toContain('sotong-health-site.web.app');
     expect(js).toContain('sotong-web-app-dev.web.app');
     expect(js).toContain('sotong-country-ai.web.app');
+    expect(js).toContain('sotong-save-live.web.app');
     expect(js).toContain('/find');
   });
 });

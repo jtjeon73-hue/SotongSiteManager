@@ -38,6 +38,7 @@ abstract final class RecommendationRules {
       RecommendationPurpose.smartFarmTech => 'smart-farm',
       RecommendationPurpose.codingDev => 'development',
       RecommendationPurpose.ruralDevelopment => 'country-ai',
+      RecommendationPurpose.retirementPlanning => 'save-live',
     };
 
     // Preserve stage-2 regression refinements.
@@ -92,6 +93,11 @@ abstract final class RecommendationRules {
       'development' => 'ai-story',
       'web-app-dev' => 'development',
       'country-ai' => 'smart-farm',
+      'save-live' => switch (purpose) {
+        RecommendationPurpose.ruralDevelopment => 'country-ai',
+        RecommendationPurpose.healthLifestyle => 'health',
+        _ => 'finance',
+      },
       _ => null,
     };
   }
@@ -151,6 +157,11 @@ abstract final class RecommendationRules {
           ? 'path-rural-ai-ideas'
           : 'path-rural-life';
     }
+    if (primary == 'save-live') {
+      return time == RecommendationTime.longTerm
+          ? 'path-save-live-family'
+          : 'path-save-live-find';
+    }
     return null;
   }
 
@@ -178,11 +189,38 @@ abstract final class RecommendationRules {
       'development' => ('맞춤 로드맵과 컴퓨터 기초', 'Python 또는 Flutter 입문'),
       'web-app-dev' => ('웹·앱·MFC 중 관심 분야 개요', '환경·도구·프롬프트·배포 흐름'),
       'country-ai' => ('사매면 이해와 주민의 하루', '현실/제안 라벨을 구분해 읽기'),
+      'save-live' => (
+        '노후맞이 인생들에서 유형 비교',
+        level == RecommendationLevel.advancedPractice
+            ? '주거·돌봄·마무리 시나리오 심화'
+            : 'AI 인생로드맵과 돈·건강 연결',
+      ),
       _ => ('전문관 소개부터 살펴보기', '추천 학습 순서 따라가기'),
     };
   }
 
   static List<String> _reasons(String primary, RecommendationProfile profile) {
+    if (primary == 'save-live') {
+      final interestReason = switch (profile.purpose) {
+        RecommendationPurpose.ruralDevelopment => '농촌생활과 평생일을 함께 준비할 수 있습니다.',
+        RecommendationPurpose.healthLifestyle =>
+          '건강·관계·돌봄을 노후 맥락에서 연결할 수 있습니다.',
+        RecommendationPurpose.dailyLife =>
+          '실버타운·공공 고령자주택·돌봄시설의 차이를 비교할 수 있습니다.',
+        RecommendationPurpose.familyLearning =>
+          '부부가 함께하거나 혼자 남았을 때의 삶을 살펴볼 수 있습니다.',
+        RecommendationPurpose.hobbyCulture => '노후에 마음을 안정시키는 읽을거리를 만나볼 수 있습니다.',
+        RecommendationPurpose.retirementPlanning =>
+          '은퇴·평생일·주거·돌봄을 한 흐름으로 살펴볼 수 있습니다.',
+        _ => '다양한 노후 인생과 시나리오를 읽고 비교할 수 있습니다.',
+      };
+      return [
+        interestReason,
+        '현재 수준(${profile.level.label})에 맞춰 첫 학습 깊이를 조정했습니다.',
+        '사용 가능 시간(${profile.timeBudget.label})을 고려해 시작 분량을 제안합니다.',
+        '이 결과는 규칙 기반 안내이며, 생성형 AI 분석이 아닙니다.',
+      ];
+    }
     final hallName = switch (primary) {
       'ai-story' => '소통AI스토리',
       'elec' => '소통전기',
@@ -195,6 +233,7 @@ abstract final class RecommendationRules {
       'development' => '소통개발',
       'web-app-dev' => '소통웹·앱·MFC DEV',
       'country-ai' => '소통농촌AI',
+      'save-live' => 'SotongSaveLive',
       _ => primary,
     };
     return [
@@ -397,6 +436,54 @@ abstract final class RelatedKnowledgeData {
       startHint: '소통PLC 통신·MFC',
       nextHint: '소통웹·앱·MFC DEV의 MFC 메뉴',
       keywords: ['PLC', 'MFC', '배포'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-finance-save-live',
+      title: '금융 기초 → 노후·평생일 설계',
+      description:
+          '현금흐름과 비상자금을 이해한 뒤, 노후의 돈과 일을 시나리오로 비교하면 '
+          '은퇴 준비의 방향을 잡기 쉽습니다. 개인 맞춤 연금·세무 조언은 아닙니다.',
+      fromSiteId: 'finance',
+      toSiteId: 'save-live',
+      startHint: '소통금융 현금흐름·저축',
+      nextHint: 'SotongSaveLive 돈과 평생일',
+      keywords: ['금융', '노후', '은퇴', '평생일'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-health-save-live',
+      title: '건강 이해 → 노후 건강·관계·돌봄',
+      description:
+          '건강 정보의 한계를 이해한 뒤, 노후의 건강·관계·돌봄 선택을 '
+          '함께 살펴볼 수 있습니다. 진단·처방은 의료전문가 영역입니다.',
+      fromSiteId: 'health',
+      toSiteId: 'save-live',
+      startHint: '소통건강 생활습관·응급 안내',
+      nextHint: 'SotongSaveLive 건강·관계·주거·돌봄',
+      keywords: ['건강', '노후', '돌봄', '관계'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-rural-save-live',
+      title: '농촌·지역 → 농촌 노후와 제2의 인생',
+      description:
+          '지역 생활 맥락을 이해한 뒤, 농촌 노후와 평생일 시나리오를 비교해 봅니다. '
+          '제도·모집정보는 공식 출처 확인이 필요합니다.',
+      fromSiteId: 'country-ai',
+      toSiteId: 'save-live',
+      startHint: '소통농촌AI 생활·귀농 정보',
+      nextHint: 'SotongSaveLive 농촌과 제2의 인생',
+      keywords: ['농촌', '귀농', '노후', '평생일'],
+    ),
+    RelatedKnowledge(
+      id: 'rk-save-live-health',
+      title: '노후 설계 → 건강·생활습관 점검',
+      description:
+          '노후 시나리오를 읽은 뒤, 질환·증상·생활습관의 기초를 건강 전문관에서 '
+          '교육용으로 보완할 수 있습니다.',
+      fromSiteId: 'save-live',
+      toSiteId: 'health',
+      startHint: 'SotongSaveLive 건강·관계·생활',
+      nextHint: '소통건강 질환·예방·응급',
+      keywords: ['노후', '건강', '생활습관'],
     ),
   ];
 }
