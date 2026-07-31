@@ -435,21 +435,31 @@ void main() {
     expect(repo.liveSites.length, 12);
   });
 
-  test('SotongSaveLive가 정확히 1개이며 URL·slug가 정확하다', () {
+  test('소통노후가 정확히 1개이며 URL·slug가 정확하다', () {
     final matches = KnowledgeData.sites
         .where((s) => s.id == 'save-live' || s.url.contains('sotong-save-live'))
         .toList();
     expect(matches.length, 1);
     final site = matches.single;
-    expect(site.name, 'SotongSaveLive');
+    expect(site.name, '소통노후');
+    expect(site.shortName, '소통노후');
     expect(site.url, 'https://sotong-save-live.web.app');
     expect(site.routeSlug, 'save-live');
     expect(site.status, SiteStatus.live);
     expect(site.quickLinks, isNotEmpty);
     final repo = SiteRepository();
     expect(repo.findSiteBySlug('save-live')?.id, 'save-live');
+    expect(repo.findSiteBySlug('save-live')?.name, '소통노후');
+    expect(
+      repo.searchTyped('소통노후').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
     expect(
       repo.searchTyped('노후설계').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repo.searchTyped('SotongSaveLive').any((r) => r.siteId == 'save-live'),
       isTrue,
     );
     expect(

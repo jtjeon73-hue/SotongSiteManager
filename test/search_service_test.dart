@@ -60,7 +60,17 @@ void main() {
       isTrue,
     );
     expect(
-      repository.searchTyped('노후설계').any((r) => r.siteId == 'save-live'),
+      repository.searchTyped('소통노후').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repository.searchTyped('노후 준비').any((r) => r.siteId == 'save-live'),
+      isTrue,
+    );
+    expect(
+      repository
+          .searchTyped('SotongSaveLive')
+          .any((r) => r.siteId == 'save-live'),
       isTrue,
     );
     expect(

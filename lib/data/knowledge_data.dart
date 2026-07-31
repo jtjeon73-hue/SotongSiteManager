@@ -77,7 +77,7 @@ abstract final class KnowledgeData {
       title: '노후설계가 돈만의 문제가 아닌 이유',
       summary:
           '일·건강·관계·주거·돌봄이 함께 맞물립니다. '
-          'SotongSaveLive에서 다양한 노후 시나리오를 읽고 비교해 보세요.',
+          '소통노후에서 다양한 노후 시나리오를 읽고 비교해 보세요.',
       whyItMatters: '돈만 보면 놓치는 선택지가 많습니다.',
       siteId: 'save-live',
       categoryId: 'life-retirement',
@@ -334,7 +334,7 @@ abstract final class KnowledgeData {
     '코딩·앱 개발을 시작하고 싶다면 → 소통개발',
     '웹·앱·MFC 실무 과정을 따라가려면 → 소통웹·앱·MFC DEV',
     '농촌·지역발전을 살펴보고 싶다면 → 소통농촌AI',
-    '노후·인생설계를 읽고 비교하고 싶다면 → SotongSaveLive',
+    '노후·인생설계를 읽고 비교하고 싶다면 → 소통노후',
   ];
 
   static const List<String> learningMethodSteps = [

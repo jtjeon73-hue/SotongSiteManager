@@ -233,7 +233,7 @@ abstract final class RecommendationRules {
       'development' => '소통개발',
       'web-app-dev' => '소통웹·앱·MFC DEV',
       'country-ai' => '소통농촌AI',
-      'save-live' => 'SotongSaveLive',
+      'save-live' => '소통노후',
       _ => primary,
     };
     return [
@@ -446,7 +446,7 @@ abstract final class RelatedKnowledgeData {
       fromSiteId: 'finance',
       toSiteId: 'save-live',
       startHint: '소통금융 현금흐름·저축',
-      nextHint: 'SotongSaveLive 돈과 평생일',
+      nextHint: '소통노후 돈과 평생일',
       keywords: ['금융', '노후', '은퇴', '평생일'],
     ),
     RelatedKnowledge(
@@ -458,7 +458,7 @@ abstract final class RelatedKnowledgeData {
       fromSiteId: 'health',
       toSiteId: 'save-live',
       startHint: '소통건강 생활습관·응급 안내',
-      nextHint: 'SotongSaveLive 건강·관계·주거·돌봄',
+      nextHint: '소통노후 건강·관계·주거·돌봄',
       keywords: ['건강', '노후', '돌봄', '관계'],
     ),
     RelatedKnowledge(
@@ -470,7 +470,7 @@ abstract final class RelatedKnowledgeData {
       fromSiteId: 'country-ai',
       toSiteId: 'save-live',
       startHint: '소통농촌AI 생활·귀농 정보',
-      nextHint: 'SotongSaveLive 농촌과 제2의 인생',
+      nextHint: '소통노후 농촌과 제2의 인생',
       keywords: ['농촌', '귀농', '노후', '평생일'],
     ),
     RelatedKnowledge(
@@ -481,7 +481,7 @@ abstract final class RelatedKnowledgeData {
           '교육용으로 보완할 수 있습니다.',
       fromSiteId: 'save-live',
       toSiteId: 'health',
-      startHint: 'SotongSaveLive 건강·관계·생활',
+      startHint: '소통노후 건강·관계·생활',
       nextHint: '소통건강 질환·예방·응급',
       keywords: ['노후', '건강', '생활습관'],
     ),
